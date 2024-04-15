@@ -37,6 +37,14 @@ namespace libCpuId.Test
         {
             Console.WriteLine(string.Join(Environment.NewLine,CpuInfo.CpuFeatures));
         }
+        [Test]
+        public void FeatureMapper()
+        {
+            foreach(var b in CpuInfo.CpuFeatureMappers)
+            {
+                Console.WriteLine($"{b.feature} {b.stat}");
+            }
+        }
 
         [Test]
         public void Vendor()

@@ -8,6 +8,7 @@
 	  <Description>libcpuinfo csharp binding from https://github.com/pytorch/cpuinfo</Description>
 	  <PackageTags>native,cpuinfo,pytorch</PackageTags>
 	  <NoWarn>IDE0049</NoWarn>
+	  <DebugType>embedded</DebugType>
 	  <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
   </PropertyGroup>
 

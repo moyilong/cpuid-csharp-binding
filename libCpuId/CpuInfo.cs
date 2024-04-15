@@ -22,11 +22,18 @@ namespace Dragon.CpuInfo
         /// Cpu instruction set
         /// </summary>
         [SuppressMessage("Style", "IDE0301", Justification = "<挂起>")]
-        public static IEnumerable<string> CpuFeatures => from i in typeof(CpuInfoNative).GetMethods()
-                                                         where i.Name.Contains("_has_")
-                                                         let feature = string.Join('_', i.Name.Split('_').Skip(4))
-                                                         where (bool)i.Invoke(null, Array.Empty<object>())
-                                                         select feature;
+        public static IEnumerable<string> CpuFeatures => from i in CpuFeatureMappers
+                                                         where i.stat
+                                                         select i.feature;
+
+        /// <summary>
+        /// Cpu instruction set
+        /// </summary>
+        [SuppressMessage("Style", "IDE0301", Justification = "<挂起>")]
+        public static IEnumerable<(string feature, bool stat)> CpuFeatureMappers => (from i in typeof(CpuInfoNative).GetMethods()
+                                                                                     where i.Name.Contains("_has_")
+                                                                                     let feature = string.Join('_', i.Name.Split('_').Skip(3))
+                                                                                     select (feature, (bool)i.Invoke(null, Array.Empty<object>())));
 
         /// <summary>
         /// CPU core arch
