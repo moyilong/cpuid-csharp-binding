@@ -1,0 +1,514 @@
+
+/mnt/c/Users/moyil/Desktop/cpuid-csharp-binding/build/rid/linux-arm/native/libcpuinfo.so:     file format elf32-littlearm
+/mnt/c/Users/moyil/Desktop/cpuid-csharp-binding/build/rid/linux-arm/native/libcpuinfo.so
+architecture: armv5t, flags 0x00000150:
+HAS_SYMS, DYNAMIC, D_PAGED
+start address 0x00000000
+
+Program Header:
+    LOAD off    0x00000000 vaddr 0x00000000 paddr 0x00000000 align 2**16
+         filesz 0x0000fbac memsz 0x0000fbac flags r-x
+    LOAD off    0x0000fc08 vaddr 0x0001fc08 paddr 0x0001fc08 align 2**16
+         filesz 0x000004cc memsz 0x000005a4 flags rw-
+ DYNAMIC off    0x0000ff18 vaddr 0x0001ff18 paddr 0x0001ff18 align 2**2
+         filesz 0x000000e8 memsz 0x000000e8 flags rw-
+    NOTE off    0x000000f4 vaddr 0x000000f4 paddr 0x000000f4 align 2**2
+         filesz 0x00000024 memsz 0x00000024 flags r--
+   STACK off    0x00000000 vaddr 0x00000000 paddr 0x00000000 align 2**4
+         filesz 0x00000000 memsz 0x00000000 flags rw-
+   RELRO off    0x0000fc08 vaddr 0x0001fc08 paddr 0x0001fc08 align 2**0
+         filesz 0x000003f8 memsz 0x000003f8 flags r--
+
+Dynamic Section:
+  NEEDED               libc.so.6
+  NEEDED               ld-linux.so.3
+  INIT                 0x00003150
+  FINI                 0x0000ee9c
+  INIT_ARRAY           0x0001fc08
+  INIT_ARRAYSZ         0x00000004
+  FINI_ARRAY           0x0001fc0c
+  FINI_ARRAYSZ         0x00000004
+  GNU_HASH             0x00000118
+  STRTAB               0x00001428
+  SYMTAB               0x00000698
+  STRSZ                0x0000159e
+  SYMENT               0x00000010
+  PLTGOT               0x00020000
+  PLTRELSZ             0x00000150
+  PLTREL               0x00000011
+  JMPREL               0x00003000
+  REL                  0x00002bd8
+  RELSZ                0x00000428
+  RELENT               0x00000008
+  VERNEED              0x00002b78
+  VERNEEDNUM           0x00000002
+  VERSYM               0x000029c6
+  RELCOUNT             0x0000007f
+
+Version References:
+  required from ld-linux.so.3:
+    0x0d696914 0x00 03 GLIBC_2.4
+  required from libc.so.6:
+    0x069691b4 0x00 05 GLIBC_2.34
+    0x06969196 0x00 04 GLIBC_2.16
+    0x0d696914 0x00 02 GLIBC_2.4
+private flags = 0x5000200: [Version5 EABI] [soft-float ABI]
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .note.gnu.build-id 00000024  000000f4  000000f4  000000f4  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  1 .gnu.hash     00000580  00000118  00000118  00000118  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  2 .dynsym       00000d90  00000698  00000698  00000698  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  3 .dynstr       0000159e  00001428  00001428  00001428  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  4 .gnu.version  000001b2  000029c6  000029c6  000029c6  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  5 .gnu.version_r 00000060  00002b78  00002b78  00002b78  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  6 .rel.dyn      00000428  00002bd8  00002bd8  00002bd8  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  7 .rel.plt      00000150  00003000  00003000  00003000  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  8 .init         0000000c  00003150  00003150  00003150  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  9 .plt          0000020c  0000315c  0000315c  0000315c  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+ 10 .text         0000bb34  00003368  00003368  00003368  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+ 11 .fini         00000008  0000ee9c  0000ee9c  0000ee9c  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+ 12 .rodata       00000d04  0000eea4  0000eea4  0000eea4  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+ 13 .eh_frame     00000004  0000fba8  0000fba8  0000fba8  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+ 14 .init_array   00000004  0001fc08  0001fc08  0000fc08  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+ 15 .fini_array   00000004  0001fc0c  0001fc0c  0000fc0c  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+ 16 .data.rel.ro  00000308  0001fc10  0001fc10  0000fc10  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+ 17 .dynamic      000000e8  0001ff18  0001ff18  0000ff18  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+ 18 .got          000000d0  00020000  00020000  00010000  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+ 19 .data         00000004  000200d0  000200d0  000100d0  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+ 20 .bss          000000d8  000200d4  000200d4  000100d4  2**2
+                  ALLOC
+ 21 .comment      0000002b  00000000  00000000  000100d4  2**0
+                  CONTENTS, READONLY
+ 22 .ARM.attributes 00000028  00000000  00000000  000100ff  2**0
+                  CONTENTS, READONLY
+SYMBOL TABLE:
+000000f4 l    d  .note.gnu.build-id	00000000              .note.gnu.build-id
+00000118 l    d  .gnu.hash	00000000              .gnu.hash
+00000698 l    d  .dynsym	00000000              .dynsym
+00001428 l    d  .dynstr	00000000              .dynstr
+000029c6 l    d  .gnu.version	00000000              .gnu.version
+00002b78 l    d  .gnu.version_r	00000000              .gnu.version_r
+00002bd8 l    d  .rel.dyn	00000000              .rel.dyn
+00003000 l    d  .rel.plt	00000000              .rel.plt
+00003150 l    d  .init	00000000              .init
+0000315c l    d  .plt	00000000              .plt
+00003368 l    d  .text	00000000              .text
+0000ee9c l    d  .fini	00000000              .fini
+0000eea4 l    d  .rodata	00000000              .rodata
+0000fba8 l    d  .eh_frame	00000000              .eh_frame
+0001fc08 l    d  .init_array	00000000              .init_array
+0001fc0c l    d  .fini_array	00000000              .fini_array
+0001fc10 l    d  .data.rel.ro	00000000              .data.rel.ro
+0001ff18 l    d  .dynamic	00000000              .dynamic
+00020000 l    d  .got	00000000              .got
+000200d0 l    d  .data	00000000              .data
+000200d4 l    d  .bss	00000000              .bss
+00000000 l    d  .comment	00000000              .comment
+00000000 l    d  .ARM.attributes	00000000              .ARM.attributes
+00000000 l    df *ABS*	00000000              crti.o
+00003368 l     F .text	00000000              call_weak_fn
+00000000 l    df *ABS*	00000000              crtn.o
+00000000 l    df *ABS*	00000000              crtstuff.c
+0000eea4 l     O .rodata	00000000              all_implied_fbits
+0000338c l     F .text	00000000              deregister_tm_clones
+000033d0 l     F .text	00000000              register_tm_clones
+00003420 l     F .text	00000000              __do_global_dtors_aux
+000200d4 l     O .bss	00000001              completed.0
+0001fc0c l     O .fini_array	00000000              __do_global_dtors_aux_fini_array_entry
+00003488 l     F .text	00000000              frame_dummy
+0001fc08 l     O .init_array	00000000              __frame_dummy_init_array_entry
+00000000 l    df *ABS*	00000000              binding.c
+00000000 l    df *ABS*	00000000              api.c
+00000000 l    df *ABS*	00000000              init.c
+00020140 l     O .bss	00000004              init_guard
+00000000 l    df *ABS*	00000000              init.c
+000045c4 l     F .text	0000007c              cluster_siblings_parser
+00004640 l     F .text	00000798              cmp_arm_linux_processor
+00020144 l     O .bss	00000048              package
+00000000 l    df *ABS*	00000000              cpuinfo.c
+00005f4c l     F .text	00000098              parse_cpu_implementer
+00005fe4 l     F .text	000011b4              parse_line
+00000000 l    df *ABS*	00000000              clusters.c
+00000000 l    df *ABS*	00000000              chipset.c
+0000f5b8 l     O .rodata	0000007c              chipset_series_vendor
+0000f634 l     O .rodata	00000024              sunxi_map_entries
+0000f658 l     O .rodata	00000010              CSWTCH.57
+0001fc10 l     O .data.rel.ro	00000198              tegra_hardware_map_entries
+0001fda8 l     O .data.rel.ro	00000098              special_hardware_map_entries
+0001fe40 l     O .data.rel.ro	0000005c              chipset_vendor_string
+0001fe9c l     O .data.rel.ro	0000007c              chipset_series_string
+00000000 l    df *ABS*	00000000              midr.c
+0000987c l     F .text	0000024c              cpuinfo_arm_linux_detect_cluster_midr_by_big_little_heuristic.part.0.constprop.0
+0000f668 l     O .rodata	000001f4              cluster_configs
+00000000 l    df *ABS*	00000000              hwcap.c
+00000000 l    df *ABS*	00000000              aarch32-isa.c
+00000000 l    df *ABS*	00000000              multiline.c
+00000000 l    df *ABS*	00000000              processors.c
+0000abac l     F .text	00000018              max_processor_number_parser
+0000abc4 l     F .text	00000044              detect_processor_parser
+0000ac08 l     F .text	00000034              siblings_parser
+0000ac3c l     F .text	00000060              uint32_parser
+00000000 l    df *ABS*	00000000              uarch.c
+00000000 l    df *ABS*	00000000              cache.c
+00000000 l    df *ABS*	00000000              smallfile.c
+00000000 l    df *ABS*	00000000              cpulist.c
+00000000 l    df *ABS*	00000000              cache.c
+00000000 l    df *ABS*	00000000              _udivsi3.o
+0000dd74 l       .text	00000000              .udivsi3_skip_div0_test
+00000000 l       *ABS*	00000000              shift
+00000000 l    df *ABS*	00000000              _dvmd_lnx.o
+00000000 l    df *ABS*	00000000              linux-atomic.o
+00000000 l    df *ABS*	00000000              crtstuff.c
+0000fb18 l     O .rodata	00000000              all_implied_fbits
+0000fba8 l     O .eh_frame	00000000              __FRAME_END__
+00000000 l    df *ABS*	00000000              
+0000e554 l     F .text	00000038              __sync_add_and_fetch_4
+0000e1a4 l     F .text	00000060              __sync_fetch_and_or_2
+0000e000 l     F .text	00000038              __sync_fetch_and_or_4
+00020134 l     O .bss	00000004              cpuinfo_linux_cpu_to_processor_map
+00020130 l     O .bss	00000004              cpuinfo_linux_cpu_max
+0000dd74 l     F .text	00000000              __aeabi_uidiv
+0000928c l     F .text	00000118              cpuinfo_arm_chipset_to_string
+0000b5b8 l     F .text	000000d4              cpuinfo_linux_detect_cluster_cpus
+00020100 l     O .bss	00000004              cpuinfo_uarchs_count
+00009ac8 l     F .text	00000734              cpuinfo_arm_linux_detect_cluster_midr
+0000e91c l     F .text	00000064              __sync_add_and_fetch_1
+000200f0 l     O .bss	00000004              cpuinfo_processors_count
+0000ee7c l     F .text	00000020              __sync_lock_release_1
+00020104 l     O .bss	00000014              cpuinfo_cache
+0000bf4c l     F .text	00001740              cpuinfo_arm_decode_cache
+0000b2a4 l     F .text	00000098              cpuinfo_linux_detect_present_processors
+00007250 l     F .text	00000300              cpuinfo_arm_linux_detect_core_clusters_by_heuristic
+0000ebc8 l     F .text	00000078              __sync_val_compare_and_swap_2
+0000e328 l     F .text	0000005c              __sync_fetch_and_add_1
+0000e498 l     F .text	0000005c              __sync_fetch_and_xor_1
+0000eb78 l     F .text	00000050              __sync_val_compare_and_swap_4
+0000b33c l     F .text	000000d4              cpuinfo_linux_detect_core_cpus
+00009428 l     F .text	00000454              cpuinfo_arm_linux_decode_chipset
+00004dd8 l     F .text	00001174              cpuinfo_arm_linux_init
+0000e5c4 l     F .text	00000038              __sync_or_and_fetch_4
+0000e778 l     F .text	00000068              __sync_or_and_fetch_2
+000200fc l     O .bss	00000004              cpuinfo_packages_count
+0000ee9c l     F .fini	00000000              _fini
+0000e7e0 l     F .text	00000068              __sync_and_and_fetch_2
+000200e8 l     O .bss	00000004              cpuinfo_packages
+0000e5fc l     F .text	00000038              __sync_and_and_fetch_4
+000200f4 l     O .bss	00000004              cpuinfo_cores_count
+000200e0 l     O .bss	00000004              cpuinfo_cores
+0000e66c l     F .text	0000003c              __sync_nand_and_fetch_4
+0000e8b0 l     F .text	0000006c              __sync_nand_and_fetch_2
+0000e43c l     F .text	0000005c              __sync_fetch_and_and_1
+0000a230 l     F .text	000007b0              cpuinfo_arm_linux_decode_isa_from_proc_cpuinfo
+0000ecfc l     F .text	0000001c              __sync_bool_compare_and_swap_1
+000078f4 l     F .text	000015f8              cpuinfo_arm_linux_decode_chipset_from_proc_cpuinfo_hardware
+0000edbc l     F .text	0000005c              __sync_lock_test_and_set_1
+0000786c l     F .text	00000088              cpuinfo_arm_linux_count_cluster_processors
+0000e0a8 l     F .text	0000003c              __sync_fetch_and_nand_4
+0000b20c l     F .text	00000098              cpuinfo_linux_detect_possible_processors
+0000a1fc l     F .text	00000034              cpuinfo_arm_linux_hwcap_from_getauxval
+0000e2c4 l     F .text	00000064              __sync_fetch_and_nand_2
+0000df80 l     F .text	00000010              __aeabi_ldiv0
+0000e848 l     F .text	00000068              __sync_xor_and_fetch_2
+0000e634 l     F .text	00000038              __sync_xor_and_fetch_4
+000200ec l     O .bss	00000004              cpuinfo_uarchs
+0000dfc8 l     F .text	00000038              __sync_fetch_and_sub_4
+0000b0c4 l     F .text	000000a4              cpuinfo_linux_get_max_possible_processor
+0000e144 l     F .text	00000060              __sync_fetch_and_sub_2
+0000e710 l     F .text	00000068              __sync_sub_and_fetch_2
+0000b168 l     F .text	000000a4              cpuinfo_linux_get_max_present_processor
+0000e58c l     F .text	00000038              __sync_sub_and_fetch_4
+00007550 l     F .text	0000031c              cpuinfo_arm_linux_detect_core_clusters_by_sequential_scan
+0002012c l     O .bss	00000004              cpuinfo_max_cache_size
+0000b4e4 l     F .text	000000d4              cpuinfo_linux_detect_thread_siblings
+0000ae98 l     F .text	000000b4              cpuinfo_linux_get_processor_min_frequency
+0000dd74 l     F .text	000001ec              __udivsi3
+000200d0 l     O .data	00000000              __dso_handle
+0000b008 l     F .text	000000bc              cpuinfo_linux_get_processor_package_id
+0000e3e0 l     F .text	0000005c              __sync_fetch_and_or_1
+0000a9e0 l     F .text	000001cc              cpuinfo_linux_parse_multiline_file
+0000d914 l     F .text	00000424              cpuinfo_linux_parse_cpulist
+0000af4c l     F .text	000000bc              cpuinfo_linux_get_processor_core_id
+0000e6a8 l     F .text	00000068              __sync_add_and_fetch_2
+0000ed18 l     F .text	0000000c              __sync_synchronize
+0000ee5c l     F .text	00000020              __sync_lock_release_2
+0000ee3c l     F .text	00000020              __sync_lock_release_4
+0000b68c l     F .text	000000d4              cpuinfo_linux_detect_package_cpus
+0000dd38 l     F .text	0000003c              cpuinfo_compute_max_cache_size
+0000ade4 l     F .text	000000b4              cpuinfo_linux_get_processor_max_frequency
+0000ac9c l     F .text	00000094              cpuinfo_linux_get_max_processors_count
+0000e264 l     F .text	00000060              __sync_fetch_and_xor_2
+0000ee18 l     F .text	00000024              __sync_lock_release_8
+000200f8 l     O .bss	00000004              cpuinfo_clusters_count
+0000e0e4 l     F .text	00000060              __sync_fetch_and_add_2
+0000e070 l     F .text	00000038              __sync_fetch_and_xor_4
+0000df80 l     F .text	00000010              __aeabi_idiv0
+0000ec40 l     F .text	00000074              __sync_val_compare_and_swap_1
+0000df90 l     F .text	00000038              __sync_fetch_and_add_4
+000200dc l     O .bss	00000004              cpuinfo_processors
+0000e9e4 l     F .text	00000064              __sync_or_and_fetch_1
+0001ff18 l     O *ABS*	00000000              _DYNAMIC
+00020138 l     O .bss	00000004              cpuinfo_linux_cpu_to_core_map
+0000ea48 l     F .text	00000064              __sync_and_and_fetch_1
+0000df60 l     F .text	00000020              __aeabi_uidivmod
+0000d7f4 l     F .text	00000120              cpuinfo_linux_parse_small_file
+00020118 l     O .bss	00000014              cpuinfo_cache_count
+0000eb10 l     F .text	00000068              __sync_nand_and_fetch_1
+0000e204 l     F .text	00000060              __sync_fetch_and_and_2
+000200d8 l     O .bss	00000001              cpuinfo_is_initialized
+0000ece0 l     F .text	0000001c              __sync_bool_compare_and_swap_2
+0000ecb4 l     F .text	0000002c              __sync_bool_compare_and_swap_4
+0000ed24 l     F .text	00000038              __sync_lock_test_and_set_4
+0000ed5c l     F .text	00000060              __sync_lock_test_and_set_2
+0000e4f4 l     F .text	00000060              __sync_fetch_and_nand_1
+000200d4 l     O .data	00000000              __TMC_END__
+00020000 l     O *ABS*	00000000              _GLOBAL_OFFSET_TABLE_
+0000b410 l     F .text	000000d4              cpuinfo_linux_detect_core_siblings
+0000eaac l     F .text	00000064              __sync_xor_and_fetch_1
+000200e4 l     O .bss	00000004              cpuinfo_clusters
+0000b760 l     F .text	000007ec              cpuinfo_arm_decode_vendor_uarch
+0000e384 l     F .text	0000005c              __sync_fetch_and_sub_1
+0000e980 l     F .text	00000064              __sync_sub_and_fetch_1
+00003150 l     F .init	00000000              _init
+00008eec l     F .text	000003a0              cpuinfo_arm_fixup_chipset
+00007198 l     F .text	000000b8              cpuinfo_arm_linux_parse_proc_cpuinfo
+0000ad30 l     F .text	000000b4              cpuinfo_linux_get_processor_cur_frequency
+0000e038 l     F .text	00000038              __sync_fetch_and_and_4
+0000d68c l     F .text	00000168              cpuinfo_arm_compute_max_cache_size
+0002013c l     O .bss	00000004              cpuinfo_linux_cpu_to_uarch_index_map
+00003b3c g     F .text	00000020              binding_cpuinfo_has_arm_jscvt
+00004214 g     F .text	00000028              cpuinfo_get_max_cache_size
+00003e6c g     F .text	00000038              cpuinfo_get_uarch
+00000000       F *UND*	00000000              calloc@GLIBC_2.4
+000045c0 g     F .text	00000004              cpuinfo_deinitialize
+000037e4 g     F .text	00000020              binding_cpuinfo_has_arm_v6k
+0000370c g     F .text	00000008              binding_cpuinfo_has_x86_bmi
+0000372c g     F .text	00000008              binding_cpuinfo_has_x86_vaes
+00000000       F *UND*	00000000              raise@GLIBC_2.4
+00003e30 g     F .text	0000003c              cpuinfo_get_package
+0000348c g     F .text	00000030              binding_cpuinfo_get_name
+000035ec g     F .text	00000008              binding_cpuinfo_has_x86_avx2
+000039a4 g     F .text	00000020              binding_cpuinfo_has_arm_fp16_arith
+00003948 g     F .text	00000028              binding_cpuinfo_has_arm_vfpv4
+00003b34 g     F .text	00000008              binding_cpuinfo_has_arm_neon_bf16
+00000000  w    F *UND*	00000000              __cxa_finalize@GLIBC_2.4
+0000458c g     F .text	00000034              cpuinfo_initialize
+00003884 g     F .text	00000020              binding_cpuinfo_has_arm_vfpv2
+00003554 g     F .text	00000008              binding_cpuinfo_has_x86_3dnow_geode
+00000000  w      *UND*	00000000              _ITM_deregisterTMCloneTable
+000034d0 g     F .text	00000014              binding_cpuinfo_uarch
+0000356c g     F .text	00000008              binding_cpuinfo_has_x86_prefetchwt1
+00003c9c g     F .text	00000004              binding_cpuinfo_get_l1d_caches_count
+0000357c g     F .text	00000008              binding_cpuinfo_has_x86_sse
+00000000       F *UND*	00000000              read@GLIBC_2.4
+0000400c g     F .text	00000028              cpuinfo_get_l4_caches
+00003ca4 g     F .text	00000004              binding_cpuinfo_get_l3_caches_count
+00003c88 g     F .text	00000004              binding_cpuinfo_get_cores_count
+00000000       F *UND*	00000000              memmove@GLIBC_2.4
+00000000       F *UND*	00000000              __memmove_chk@GLIBC_2.4
+00003ea4 g     F .text	00000028              cpuinfo_get_processors_count
+00003cac g     F .text	00000004              binding_cpuinfo_get_max_cache_size
+0000371c g     F .text	00000008              binding_cpuinfo_has_x86_adx
+00000000       F *UND*	00000000              free@GLIBC_2.4
+00003764 g     F .text	00000020              binding_cpuinfo_has_arm_thumb
+00003ba4 g     F .text	00000020              binding_cpuinfo_has_arm_sha1
+0002018c g     O .bss	0000001e              cpuinfo_isa
+00000000       O *UND*	00000000              __stack_chk_guard@GLIBC_2.4
+0000363c g     F .text	00000008              binding_cpuinfo_has_x86_avx512vbmi2
+00003c84 g     F .text	00000004              binding_cpuinfo_get_processors_count
+000035c4 g     F .text	00000008              binding_cpuinfo_has_x86_avxvnni
+00000000       F *UND*	00000000              memcpy@GLIBC_2.4
+00003ef4 g     F .text	00000028              cpuinfo_get_clusters_count
+000036ac g     F .text	00000008              binding_cpuinfo_has_x86_rtm
+00003f94 g     F .text	00000028              cpuinfo_get_l1d_caches
+000038c4 g     F .text	00000028              binding_cpuinfo_has_arm_vfpv3_d32
+00003584 g     F .text	00000008              binding_cpuinfo_has_x86_sse2
+00003524 g     F .text	00000008              binding_cpuinfo_has_x86_xsave
+00003f44 g     F .text	00000028              cpuinfo_get_uarchs_count
+00003604 g     F .text	00000008              binding_cpuinfo_has_x86_avx512er
+000036c4 g     F .text	00000008              binding_cpuinfo_has_x86_cmov
+000034ec g     F .text	00000008              binding_cpuinfo_has_x86_rdtsc
+00000000       F *UND*	00000000              memcmp@GLIBC_2.4
+000036ec g     F .text	00000008              binding_cpuinfo_has_x86_lahf_sahf
+000036f4 g     F .text	00000008              binding_cpuinfo_has_x86_lzcnt
+0000373c g     F .text	00000008              binding_cpuinfo_has_x86_vpclmulqdq
+00003654 g     F .text	00000008              binding_cpuinfo_has_x86_avx512vnni
+00003784 g     F .text	00000020              binding_cpuinfo_has_arm_thumb2
+00000000       F *UND*	00000000              stpcpy@GLIBC_2.4
+00003fbc g     F .text	00000028              cpuinfo_get_l2_caches
+00003724 g     F .text	00000008              binding_cpuinfo_has_x86_aes
+00003a7c g     F .text	00000028              binding_cpuinfo_has_arm_neon_v8
+00000000       F *UND*	00000000              __stack_chk_fail@GLIBC_2.4
+00003504 g     F .text	00000008              binding_cpuinfo_has_x86_clzero
+00003b84 g     F .text	00000020              binding_cpuinfo_has_arm_aes
+00003634 g     F .text	00000008              binding_cpuinfo_has_x86_avx512vbmi
+000039ec g     F .text	00000020              binding_cpuinfo_has_arm_wmmx2
+0000359c g     F .text	00000008              binding_cpuinfo_has_x86_sse4_1
+0000353c g     F .text	00000008              binding_cpuinfo_has_x86_mmx_plus
+00003864 g     F .text	00000020              binding_cpuinfo_has_arm_idiv
+0000374c g     F .text	00000008              binding_cpuinfo_has_x86_rdrand
+0000364c g     F .text	00000008              binding_cpuinfo_has_x86_avx512vpopcntdq
+0000423c g     F .text	000000c0              cpuinfo_get_current_processor
+000035f4 g     F .text	00000008              binding_cpuinfo_has_x86_avx512f
+000036a4 g     F .text	00000008              binding_cpuinfo_has_x86_hle
+000035fc g     F .text	00000008              binding_cpuinfo_has_x86_avx512pf
+00004174 g     F .text	00000028              cpuinfo_get_l1d_caches_count
+00003d04 g     F .text	00000028              cpuinfo_get_clusters
+00003614 g     F .text	00000008              binding_cpuinfo_has_x86_avx512dq
+00003664 g     F .text	00000008              binding_cpuinfo_has_x86_avx512fp16
+000035d4 g     F .text	00000008              binding_cpuinfo_has_x86_fma4
+00003544 g     F .text	00000008              binding_cpuinfo_has_x86_3dnow
+00003af4 g     F .text	00000020              binding_cpuinfo_has_arm_fhm
+00003594 g     F .text	00000008              binding_cpuinfo_has_x86_ssse3
+000035bc g     F .text	00000008              binding_cpuinfo_has_x86_avx
+00003c5c g     F .text	00000008              binding_cpuinfo_has_riscv_f
+00003704 g     F .text	00000008              binding_cpuinfo_has_x86_tbm
+00003804 g     F .text	00000020              binding_cpuinfo_has_arm_v7
+00003b14 g     F .text	00000020              binding_cpuinfo_has_arm_neon_dot
+000038ec g     F .text	00000028              binding_cpuinfo_has_arm_vfpv3_fp16
+00003754 g     F .text	00000008              binding_cpuinfo_has_x86_rdseed
+00003ca0 g     F .text	00000004              binding_cpuinfo_get_l2_caches_count
+00003824 g     F .text	00000020              binding_cpuinfo_has_arm_v7mp
+000044a0 g     F .text	000000ec              cpuinfo_get_current_uarch_index_with_default
+00003684 g     F .text	00000008              binding_cpuinfo_has_x86_amx_bf16
+00003c2c g     F .text	00000008              binding_cpuinfo_has_arm_sve_bf16
+00003c04 g     F .text	00000020              binding_cpuinfo_has_arm_crc32
+0000355c g     F .text	00000008              binding_cpuinfo_has_x86_prefetch
+00003c34 g     F .text	00000008              binding_cpuinfo_has_arm_sve2
+00003c64 g     F .text	00000008              binding_cpuinfo_has_riscv_d
+00000000       F *UND*	00000000              strerror@GLIBC_2.4
+00003c4c g     F .text	00000008              binding_cpuinfo_has_riscv_m
+0000368c g     F .text	00000008              binding_cpuinfo_has_x86_amx_tile
+00004114 g     F .text	00000038              cpuinfo_get_l4_cache
+00003c8c g     F .text	00000004              binding_cpuinfo_get_clusters_count
+00000000  w      *UND*	00000000              __gmon_start__
+00000000       F *UND*	00000000              open@GLIBC_2.4
+00003914 g     F .text	00000034              binding_cpuinfo_has_arm_vfpv3_fp16_d32
+000039cc g     F .text	00000020              binding_cpuinfo_has_arm_wmmx
+00000000       F *UND*	00000000              syscall@GLIBC_2.4
+0000366c g     F .text	00000008              binding_cpuinfo_has_x86_avx512vp2intersect
+00003f1c g     F .text	00000028              cpuinfo_get_packages_count
+00003a2c g     F .text	00000028              binding_cpuinfo_has_arm_neon_fp16
+000039c4 g     F .text	00000008              binding_cpuinfo_has_arm_bf16
+00003d54 g     F .text	00000028              cpuinfo_get_uarchs
+00004034 g     F .text	00000038              cpuinfo_get_l1i_cache
+000035ac g     F .text	00000008              binding_cpuinfo_has_x86_sse4a
+00003db8 g     F .text	0000003c              cpuinfo_get_core
+0000419c g     F .text	00000028              cpuinfo_get_l2_caches_count
+00003acc g     F .text	00000028              binding_cpuinfo_has_arm_neon_fp16_arith
+000038a4 g     F .text	00000020              binding_cpuinfo_has_arm_vfpv3
+00003d7c g     F .text	0000003c              cpuinfo_get_processor
+0000406c g     F .text	00000038              cpuinfo_get_l1d_cache
+0000361c g     F .text	00000008              binding_cpuinfo_has_x86_avx512bw
+00003624 g     F .text	00000008              binding_cpuinfo_has_x86_avx512vl
+00000000       F *UND*	00000000              __errno_location@GLIBC_2.4
+00003574 g     F .text	00000008              binding_cpuinfo_has_x86_daz
+000035e4 g     F .text	00000008              binding_cpuinfo_has_x86_f16c
+00003ca8 g     F .text	00000004              binding_cpuinfo_get_l4_caches_count
+00003564 g     F .text	00000008              binding_cpuinfo_has_x86_prefetchw
+000036bc g     F .text	00000008              binding_cpuinfo_has_x86_mpx
+00003d2c g     F .text	00000028              cpuinfo_get_packages
+00003694 g     F .text	00000008              binding_cpuinfo_has_x86_amx_int8
+00000000       F *UND*	00000000              memset@GLIBC_2.4
+0000369c g     F .text	00000008              binding_cpuinfo_has_x86_amx_fp16
+00000000       F *UND*	00000000              strncpy@GLIBC_2.4
+00003534 g     F .text	00000008              binding_cpuinfo_has_x86_mmx
+000034e8 g     F .text	00000004              binding_cpuinfo_deinilize
+00003bc4 g     F .text	00000020              binding_cpuinfo_has_arm_sha2
+0000360c g     F .text	00000008              binding_cpuinfo_has_x86_avx512cd
+00003a0c g     F .text	00000020              binding_cpuinfo_has_arm_neon
+00003c90 g     F .text	00000004              binding_cpuinfo_get_packages_count
+00003c94 g     F .text	00000004              binding_cpuinfo_get_uarchs_count
+00003ecc g     F .text	00000028              cpuinfo_get_cores_count
+0000375c g     F .text	00000008              binding_cpuinfo_has_x86_sha
+00003644 g     F .text	00000008              binding_cpuinfo_has_x86_avx512bitalg
+000034fc g     F .text	00000008              binding_cpuinfo_has_x86_rdpid
+00000000       F *UND*	00000000              getauxval@GLIBC_2.16
+0000358c g     F .text	00000008              binding_cpuinfo_has_x86_sse3
+00000000       F *UND*	00000000              strnlen@GLIBC_2.4
+00003df4 g     F .text	0000003c              cpuinfo_get_cluster
+00003cb0 g     F .text	00000004              binding_cpuinfo_get_current_uarch_index
+0000365c g     F .text	00000008              binding_cpuinfo_has_x86_avx512bf16
+00003aa4 g     F .text	00000008              binding_cpuinfo_has_arm_atomics
+0000351c g     F .text	00000008              binding_cpuinfo_has_x86_fxsave
+00003be4 g     F .text	00000020              binding_cpuinfo_has_arm_pmull
+0000352c g     F .text	00000008              binding_cpuinfo_has_x86_fpu
+0000414c g     F .text	00000028              cpuinfo_get_l1i_caches_count
+000036e4 g     F .text	00000008              binding_cpuinfo_has_x86_movbe
+000035b4 g     F .text	00000008              binding_cpuinfo_has_x86_misaligned_sse
+00003a54 g     F .text	00000028              binding_cpuinfo_has_arm_neon_fma
+0000354c g     F .text	00000008              binding_cpuinfo_has_x86_3dnow_plus
+00003c98 g     F .text	00000004              binding_cpuinfo_get_l1i_caches_count
+000035a4 g     F .text	00000008              binding_cpuinfo_has_x86_sse4_2
+000040a4 g     F .text	00000038              cpuinfo_get_l2_cache
+00003f6c g     F .text	00000028              cpuinfo_get_l1i_caches
+000034f4 g     F .text	00000008              binding_cpuinfo_has_x86_rdtscp
+00003674 g     F .text	00000008              binding_cpuinfo_has_x86_avx512_4vnniw
+000093a4 g     F .text	00000084              cpuinfo_arm_fixup_raspberry_pi_chipset
+000034e4 g     F .text	00000004              binding_cpuinfo_initialize
+00003aac g     F .text	00000020              binding_cpuinfo_has_arm_neon_rdm
+00003b7c g     F .text	00000008              binding_cpuinfo_has_arm_i8mm
+00003c24 g     F .text	00000008              binding_cpuinfo_has_arm_sve
+000035cc g     F .text	00000008              binding_cpuinfo_has_x86_fma3
+000041ec g     F .text	00000028              cpuinfo_get_l4_caches_count
+0000362c g     F .text	00000008              binding_cpuinfo_has_x86_avx512ifma
+00000000       F *UND*	00000000              qsort@GLIBC_2.4
+0000367c g     F .text	00000008              binding_cpuinfo_has_x86_avx512_4fmaps
+00003c3c g     F .text	00000008              binding_cpuinfo_has_riscv_i
+000037c4 g     F .text	00000020              binding_cpuinfo_has_arm_v6
+00003844 g     F .text	00000020              binding_cpuinfo_has_arm_v8
+00003714 g     F .text	00000008              binding_cpuinfo_has_x86_bmi2
+00003744 g     F .text	00000008              binding_cpuinfo_has_x86_gfni
+00000000  w      *UND*	00000000              _ITM_registerTMCloneTable
+00003cdc g     F .text	00000028              cpuinfo_get_cores
+000036dc g     F .text	00000008              binding_cpuinfo_has_x86_clwb
+000034bc g     F .text	00000014              binding_cpuinfo_vendor
+00003734 g     F .text	00000008              binding_cpuinfo_has_x86_pclmulqdq
+000042fc g     F .text	000000c0              cpuinfo_get_current_core
+000041c4 g     F .text	00000028              cpuinfo_get_l3_caches_count
+000035dc g     F .text	00000008              binding_cpuinfo_has_x86_xop
+00003c7c g     F .text	00000008              binding_cpuinfo_has_riscv_v
+000037a4 g     F .text	00000020              binding_cpuinfo_has_arm_v5e
+000036b4 g     F .text	00000008              binding_cpuinfo_has_x86_xtest
+00003c6c g     F .text	00000008              binding_cpuinfo_has_riscv_g
+00003c44 g     F .text	00000008              binding_cpuinfo_has_riscv_e
+00000000       F *UND*	00000000              strncmp@GLIBC_2.4
+00003c54 g     F .text	00000008              binding_cpuinfo_has_riscv_a
+00003b5c g     F .text	00000020              binding_cpuinfo_has_arm_fcma
+00003c74 g     F .text	00000008              binding_cpuinfo_has_riscv_c
+00000000       F *UND*	00000000              abort@GLIBC_2.4
+000040dc g     F .text	00000038              cpuinfo_get_l3_cache
+000036cc g     F .text	00000008              binding_cpuinfo_has_x86_cmpxchg8b
+00000000       F *UND*	00000000              pthread_once@GLIBC_2.34
+000043bc g     F .text	000000e4              cpuinfo_get_current_uarch_index
+00000000       F *UND*	00000000              close@GLIBC_2.4
+00003cb4 g     F .text	00000028              cpuinfo_get_processors
+00003fe4 g     F .text	00000028              cpuinfo_get_l3_caches
+0000350c g     F .text	00000008              binding_cpuinfo_has_x86_mwait
+00003970 g     F .text	00000034              binding_cpuinfo_has_arm_vfpv4_d32
+000036fc g     F .text	00000008              binding_cpuinfo_has_x86_popcnt
+00000000       F *UND*	00000000              __snprintf_chk@GLIBC_2.4
+00003514 g     F .text	00000008              binding_cpuinfo_has_x86_mwaitx
+000036d4 g     F .text	00000008              binding_cpuinfo_has_x86_cmpxchg16b
+
+

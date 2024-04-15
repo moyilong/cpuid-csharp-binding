@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <AssemblyName>csharp-cpuinfo-binding</AssemblyName>
+	  <TargetFrameworks>netstandard2.1</TargetFrameworks>
+	  <LangVersion>12.0</LangVersion>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <Description>libcpuinfo csharp binding from https://github.com/pytorch/cpuinfo</Description>
+	  <PackageTags>native,cpuinfo,pytorch</PackageTags>
+	  <NoWarn>IDE0049</NoWarn>
+	  <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <None Include="runtimes/**/*">
+		  <Pack>True</Pack>
+		  <PackagePath>runtimes</PackagePath>
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <Compile Include="../build/binding.cs"></Compile>
+	  <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="8.0.0" />
+	  <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+  </ItemGroup>
+
+
+</Project>

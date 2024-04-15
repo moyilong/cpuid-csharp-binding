@@ -1,4 +1,4 @@
-﻿namespace libCpuInfo.Natives
+namespace Dragon.CpuInfo.libCpuInfo
 {
     /**
      * Processor microarchitecture

@@ -1,6 +1,6 @@
 using System;
 
-namespace libCpuInfo.Natives
+namespace Dragon.CpuInfo.libCpuInfo
 {
     public enum cpuinfo_cache_type
     {

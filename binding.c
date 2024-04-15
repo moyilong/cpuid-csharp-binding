@@ -10,42 +10,37 @@
 #define DLL_EXPORT
 #endif
 
-#define API_EXPORT DLL_EXPORT extern
+#define API_EXPORT CPUINFO_ABI
 
 #define FUNCTION_COPY(source, bool) \
     API_EXPORT bool binding_##source() { return source(); }
 
-uint32_t API_EXPORT binding_cpuinfo_get_name(char *name)
+API_EXPORT int32_t binding_cpuinfo_get_name(uint8_t *name)
 {
+    if (name == NULL)
+        return -1;
     strcpy(name, cpuinfo_get_processors()->package->name);
     return strlen(name);
 }
 
-enum cpuinfo_vendor API_EXPORT binding_cpuinfo_vendor()
+API_EXPORT enum cpuinfo_vendor binding_cpuinfo_vendor()
 {
     return cpuinfo_get_processors()->core->vendor;
 }
 
-enum cpuinfo_uarch API_EXPORT binding_cpuinfo_uarch()
+API_EXPORT enum cpuinfo_uarch binding_cpuinfo_uarch()
 {
     return cpuinfo_get_processors()->core->uarch;
 }
 
-bool API_EXPORT binding_cpuinfo_initialize()
+API_EXPORT bool binding_cpuinfo_initialize()
 {
     return cpuinfo_initialize();
 }
 
-void API_EXPORT binding_cpuinfo_deinilize()
+API_EXPORT void binding_cpuinfo_deinilize()
 {
     cpuinfo_deinitialize();
 }
 
-void main()
-{
-    cpuinfo_initialize();
-    printf("build: " __DATE__ " " __TIME__ "\n");
-    char cpuname[64] = {0x00};
-    int count = binding_cpuinfo_get_name(cpuname);
-    printf("%d:%s\n", count, cpuname);
-}
+
