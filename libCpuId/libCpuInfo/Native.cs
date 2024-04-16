@@ -21,7 +21,7 @@ namespace Dragon.CpuInfo.libCpuInfo
         public static extern cpuinfo_vendor binding_cpuinfo_vendor();
 
         [DllImport(libName)]
-        public static extern cpuinfo_uarch binding_cpuinfo_uarch();
+        public static extern CpuInfoUArch binding_cpuinfo_uarch();
 
         [DllImport(libName)]
         public static extern Int32 binding_cpuinfo_get_name(byte[] buffer);

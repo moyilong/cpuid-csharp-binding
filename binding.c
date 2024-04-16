@@ -2,7 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#ifdef COMPILE_MODE
 #include "cpuinfo.h"
+#else
+#include "build/cpuid/include/cpuinfo.h"
+#endif
+
 
 #ifdef _WIN32
 #define DLL_EXPORT __declspec(dllexport) __cdecl
@@ -43,4 +49,17 @@ API_EXPORT void binding_cpuinfo_deinilize()
     cpuinfo_deinitialize();
 }
 
+#pragma pack(push,1)
+
+struct cpu_cache_info {
+    uint32_t total_cache_size;
+    uint32_t l1_instruct_size;
+    uint32_t l1_data_size;
+};
+
+#pragma pack(pop)
+
+API_EXPORT void binding_cpuinfo_get_cacheinfo() {
+
+}
 

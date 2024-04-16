@@ -40,9 +40,17 @@ namespace libCpuId.Test
         [Test]
         public void FeatureMapper()
         {
-            foreach(var b in CpuInfo.CpuFeatureMappers)
+            foreach (var i in CpuInfo.CpuFeatureMappers)
             {
-                Console.WriteLine($"{b.feature} {b.stat}");
+                Console.WriteLine(i.ToString());
+            }
+        }
+        [Test]
+        public void CurrentFeatureMapper()
+        {
+            foreach (var i  in CpuInfo.CpuFeatureCurrentArch)
+            {
+                Console.WriteLine(i.ToString());
             }
         }
 
@@ -61,7 +69,7 @@ namespace libCpuId.Test
         public void Model()
         {
             Console.WriteLine($"{CpuInfo.CpuModel} CPU:{CpuInfo.CpuCounts} Cores:{CpuInfo.CpuCores} Threads:{CpuInfo.CpuThreads}");
-            Console.WriteLine($"Caches:{CpuInfo.CpuCaches} L1:{CpuInfo.CpuL1ICaches}I+{CpuInfo.CpuL1DCaches}D");
+            Console.WriteLine($"Caches:{CpuInfo.CpuCaches}");
         }
     }
 

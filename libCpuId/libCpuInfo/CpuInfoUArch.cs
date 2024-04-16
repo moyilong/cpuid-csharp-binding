@@ -8,7 +8,7 @@ namespace Dragon.CpuInfo.libCpuInfo
      * organization.
      */
 
-    public enum cpuinfo_uarch
+    public enum CpuInfoUArch
     {
         /** Microarchitecture is unknown, or the library failed to get
            information about the microarchitecture from OS */

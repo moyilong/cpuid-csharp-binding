@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 
 [assembly: InternalsVisibleTo("cpuinfo-cli")]
@@ -12,6 +13,11 @@ using System.Text;
 
 namespace Dragon.CpuInfo
 {
+
+    /// <summary>
+    /// CpuInfo
+    /// </summary>
+    [SuppressMessage("Style", "IDE0301")]
     public static class CpuInfo
     {
         static CpuInfo()
@@ -21,29 +27,67 @@ namespace Dragon.CpuInfo
         /// <summary>
         /// Cpu instruction set
         /// </summary>
-        [SuppressMessage("Style", "IDE0301", Justification = "<挂起>")]
         public static IEnumerable<string> CpuFeatures => from i in CpuFeatureMappers
-                                                         where i.stat
-                                                         select i.feature;
+                                                         where i.Stat
+                                                         select i.Name;
 
         /// <summary>
         /// Cpu instruction set
         /// </summary>
-        [SuppressMessage("Style", "IDE0301", Justification = "<挂起>")]
-        public static IEnumerable<(string feature, bool stat)> CpuFeatureMappers => (from i in typeof(CpuInfoNative).GetMethods()
-                                                                                     where i.Name.Contains("_has_")
-                                                                                     let feature = string.Join('_', i.Name.Split('_').Skip(3))
-                                                                                     select (feature, (bool)i.Invoke(null, Array.Empty<object>())));
+        public static IEnumerable<CpuInstructionSetFeature> CpuFeatureMappers => from i in typeof(CpuInfoNative).GetMethods()
+                                                                                 where i.Name.Contains("_has_")
+                                                                                 let feature = string.Join('_', i.Name.Split('_').Skip(4))
+                                                                                 let convName = InstructionNameConversion(feature)
+                                                                                 let arch = i.Name.Split('_')[3]
+                                                                                 let stat = (bool)i.Invoke(null, Array.Empty<object>())
+                                                                                 select new CpuInstructionSetFeature
+                                                                                 {
+                                                                                     Arch = arch,
+                                                                                     Stat = stat,
+                                                                                     Name = convName,
+                                                                                     OriginalName = feature
+                                                                                 };
+
+        /// <summary>
+        /// Current Cpu instruct set
+        /// </summary>
+        public static IEnumerable<CpuInstructionSetFeature> CpuFeatureCurrentArch => from i in CpuFeatureMappers
+                                                                                     where i.Arch == CpuArch
+                                                                                     select i;
 
         /// <summary>
         /// CPU core arch
         /// </summary>
-        public static cpuinfo_uarch CpuUArch => CpuInfoNative.binding_cpuinfo_uarch();
+        public static CpuInfoUArch CpuUArch => CpuInfoNative.binding_cpuinfo_uarch();
 
         /// <summary>
         /// CPU Vendor
         /// </summary>
         public static cpuinfo_vendor CpuVendor => CpuInfoNative.binding_cpuinfo_vendor();
+
+        /// <summary>
+        /// Cpu arch
+        /// </summary>
+        [SuppressMessage("Style", "IDE0066")]
+        public static string CpuArch
+        {
+            get
+            {
+                switch (RuntimeInformation.ProcessArchitecture)
+                {
+                    case Architecture.Arm:
+                    case Architecture.Arm64:
+                        return "arm";
+
+                    case Architecture.X86:
+                    case Architecture.X64:
+                        return "x86";
+
+                    default:
+                        throw new PlatformNotSupportedException();
+                }
+            }
+        }
 
         /// <summary>
         /// CPU Model
@@ -80,7 +124,9 @@ namespace Dragon.CpuInfo
         /// </summary>
         public static UInt32 CpuCaches => CpuInfoNative.binding_cpuinfo_get_max_cache_size();
 
-        public static UInt32 CpuL1ICaches => CpuInfoNative.binding_cpuinfo_get_l1i_caches_count();
-        public static UInt32 CpuL1DCaches => CpuInfoNative.binding_cpuinfo_get_l1d_caches_count();
+        private static string InstructionNameConversion(string name)
+        {
+            return name.Replace("_plus", "+").Replace("_", ".");
+        }
     }
 }

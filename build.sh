@@ -102,7 +102,7 @@ build_instance() {
 
     #cp $local_build/$liborigname $rid_dir/$rid/native/$libname
     
-    ${toolchain}-gcc $CFLAGS -shared -fPIC $workdir/binding.c \
+    ${toolchain}-gcc $CFLAGS -shared -fPIC $workdir/binding.c -DCOMPILE_MODE \
         -L$local_build -lcpuinfo_internals -lcpuinfo -I$source_dir/include \
         -o $rid_dir/$rid/native/$libname || exit -1
 
