@@ -1,15 +1,11 @@
 using Dragon.CpuInfo;
 using Dragon.CpuInfo.libCpuInfo;
-using Microsoft.VisualStudio.TestPlatform.Utilities;
 using System;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace libCpuId.Test
 {
-    public class Tests
+    public class libCpuInfo
     {
         [SetUp]
         public void SetUp()
@@ -18,12 +14,11 @@ namespace libCpuId.Test
                 Assert.Fail();
         }
 
-
         [Test]
         public void FastGet()
         {
             foreach (var i in from i in typeof(CpuInfoNative).GetMethods()
-                              where i.IsConstructor ==false
+                              where i.IsConstructor == false
                               where i.IsStatic
                               where i.GetParameters().Length == 0
                               where i.ReturnType != typeof(void)
@@ -32,11 +27,13 @@ namespace libCpuId.Test
                 Console.WriteLine($"{i.Name} = {i.Invoke(null, [])?.ToString()}");
             }
         }
+
         [Test]
         public void Features()
         {
-            Console.WriteLine(string.Join(Environment.NewLine,CpuInfo.CpuFeatures));
+            Console.WriteLine(string.Join(Environment.NewLine, CpuInfo.CpuFeatures));
         }
+
         [Test]
         public void FeatureMapper()
         {
@@ -45,10 +42,11 @@ namespace libCpuId.Test
                 Console.WriteLine(i.ToString());
             }
         }
+
         [Test]
         public void CurrentFeatureMapper()
         {
-            foreach (var i  in CpuInfo.CpuFeatureCurrentArch)
+            foreach (var i in CpuInfo.CpuFeatureCurrentArch)
             {
                 Console.WriteLine(i.ToString());
             }
@@ -59,6 +57,7 @@ namespace libCpuId.Test
         {
             Console.WriteLine(CpuInfo.CpuVendor);
         }
+
         [Test]
         public void Uarch()
         {
@@ -71,14 +70,11 @@ namespace libCpuId.Test
             Console.WriteLine($"{CpuInfo.CpuModel} CPU:{CpuInfo.CpuCounts} Cores:{CpuInfo.CpuCores} Threads:{CpuInfo.CpuThreads}");
             Console.WriteLine($"Caches:{CpuInfo.CpuCaches}");
         }
-    }
 
-    public class Runtime
-    {
         [Test]
-        public void RuntimeArch()
+        public void CacheInfo()
         {
-            Console.WriteLine(RuntimeInformation.OSArchitecture);
+            Console.WriteLine(CpuInfo.CpuCacheInfo.ToString());
         }
     }
 }

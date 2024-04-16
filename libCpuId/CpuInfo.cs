@@ -13,7 +13,6 @@ using System.Text;
 
 namespace Dragon.CpuInfo
 {
-
     /// <summary>
     /// CpuInfo
     /// </summary>
@@ -127,6 +126,57 @@ namespace Dragon.CpuInfo
         private static string InstructionNameConversion(string name)
         {
             return name.Replace("_plus", "+").Replace("_", ".");
+        }
+
+        /// <summary>
+        /// Cpu Cache info
+        /// </summary>
+        public static CpuCacheInfos CpuCacheInfo => new CpuCacheInfos
+        {
+            L1D = CpuInfoNative.binding_cpuinfo_get_l1d_caches(),
+            L1I = CpuInfoNative.binding_cpuinfo_get_l1i_caches(),
+            L2 = CpuInfoNative.binding_cpuinfo_get_l2_caches(),
+            L3 = CpuInfoNative.binding_cpuinfo_get_l3_caches(),
+            L4 = CpuInfoNative.binding_cpuinfo_get_l4_caches()
+        };
+
+        public static string CacheInfoToString(this CpuCacheInfo info)
+        {
+            return string.Join(' ', from i in info.GetType().GetFields()
+                                    select $"{i.Name}={i.GetValue(info)}");
+        }
+    }
+
+    public class CpuCacheInfos
+    {
+        /// <summary>
+        /// L1 instruction
+        /// </summary>
+        public CpuCacheInfo L1I { get; internal set; }
+
+        /// <summary>
+        /// L1 data
+        /// </summary>
+        public CpuCacheInfo L1D { get; internal set; }
+        /// <summary>
+        /// L2
+        /// </summary>
+        public CpuCacheInfo L2 { get; internal set; }
+
+        /// <summary>
+        /// L3
+        /// </summary>
+        public CpuCacheInfo L3 { get; internal set; }
+
+        /// <summary>
+        /// L4
+        /// </summary>
+        public CpuCacheInfo L4 { get; internal set; }
+
+        public override string ToString()
+        {
+            return string.Join(Environment.NewLine, from i in typeof(CpuCacheInfos).GetProperties()
+                                                    select $"{i.Name} >> {((CpuCacheInfo)i.GetValue(this)).CacheInfoToString()}");
         }
     }
 }

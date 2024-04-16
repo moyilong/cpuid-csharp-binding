@@ -49,17 +49,12 @@ API_EXPORT void binding_cpuinfo_deinilize()
     cpuinfo_deinitialize();
 }
 
-#pragma pack(push,1)
+#define CACHE_INFO_API(native) \
+    API_EXPORT struct cpuinfo_cache binding_##native() { struct cpuinfo_cache ret; memcpy(&ret,native(),sizeof(struct cpuinfo_cache)); }
 
-struct cpu_cache_info {
-    uint32_t total_cache_size;
-    uint32_t l1_instruct_size;
-    uint32_t l1_data_size;
-};
 
-#pragma pack(pop)
-
-API_EXPORT void binding_cpuinfo_get_cacheinfo() {
-
-}
-
+CACHE_INFO_API(cpuinfo_get_l1i_caches);
+CACHE_INFO_API(cpuinfo_get_l1d_caches);
+CACHE_INFO_API(cpuinfo_get_l2_caches);
+CACHE_INFO_API(cpuinfo_get_l3_caches);
+CACHE_INFO_API(cpuinfo_get_l4_caches);
