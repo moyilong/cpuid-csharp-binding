@@ -12,6 +12,9 @@ if [ ! -e $source_dir ]; then
 fi
 
 
+cpuinfo_version="$(cd $source_dir && git rev-parse HEAD)"
+echo $cpuinfo_version
+
 filter_cpuinfo(){
     cat $source_dir/include/cpuinfo.h | \
         grep '(void)' | sed 's/(void)//g' | \
@@ -103,6 +106,7 @@ build_instance() {
     #cp $local_build/$liborigname $rid_dir/$rid/native/$libname
     
     ${toolchain}-gcc $CFLAGS -shared -fPIC $workdir/binding.c -DCOMPILE_MODE \
+        -DCPUINFO_VERSION="\"$cpuinfo_version\"" -DRID_NAME="\"$rid\""\
         -L$local_build -lcpuinfo_internals -lcpuinfo -I$source_dir/include \
         -o $rid_dir/$rid/native/$libname || exit -1
 
