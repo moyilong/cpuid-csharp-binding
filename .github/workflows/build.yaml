@@ -33,7 +33,7 @@ jobs:
       - name: build csharp
         run: dotnet build -r .
 
-        - name: Upload artifact
+      - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: bindings
