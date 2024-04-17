@@ -2,6 +2,8 @@ name: build
 
 on:
   workflow_dispatch:
+  push:
+
 
 permissions:
   actions: read
@@ -30,7 +32,7 @@ jobs:
           nuget-api-key: ${{ secrets.GITHUB_TOKEN }}
 
       - name: build native
-        run: ./build.sh
+        run: bash -c ./build.sh
 
       - name: build csharp
         run: dotnet build -r .
