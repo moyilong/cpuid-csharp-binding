@@ -1,6 +1,5 @@
 using Dragon.CpuInfo.libCpuInfo;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -25,14 +24,17 @@ namespace Dragon.CpuInfo
         public static void Deinitialize()
         {
             CpuInfoNative.binding_cpuinfo_deinilize();
+            Inited = false;
         }
-
+        static bool Inited = false;
         /// <summary>
         /// Initialize call first
         /// </summary>
         public static void Initialize()
         {
-            CpuInfoNative.binding_cpuinfo_initialize();
+            if (Inited)
+                return;
+            Inited = CpuInfoNative.binding_cpuinfo_initialize();
         }
 
         /// <summary>
@@ -42,6 +44,9 @@ namespace Dragon.CpuInfo
                                                          where i.Stat
                                                          select i.Name;
 
+
+        static readonly object[] dummy_objects= Array.Empty<object>();
+
         /// <summary>
         /// Cpu instruction set
         /// </summary>
@@ -50,7 +55,7 @@ namespace Dragon.CpuInfo
                                                                                  let feature = string.Join('_', i.Name.Split('_').Skip(4))
                                                                                  let convName = InstructionNameConversion(feature)
                                                                                  let arch = i.Name.Split('_')[3]
-                                                                                 let stat = (bool)i.Invoke(null, Array.Empty<object>())
+                                                                                 let stat = (bool)i.Invoke(null, dummy_objects)
                                                                                  select new CpuInstructionSetFeature
                                                                                  {
                                                                                      Arch = arch,
@@ -157,7 +162,7 @@ namespace Dragon.CpuInfo
 
         public static string ComputeCache(Func<UInt32, CpuCacheInfo> caches, Func<UInt32> counter)
         {
-            List<CpuCacheInfo> datas = new List<CpuCacheInfo>();
+            List<CpuCacheInfo> datas = [];
             for (UInt32 n = 0; n < counter(); n++)
             {
                 datas.Add(caches(n));

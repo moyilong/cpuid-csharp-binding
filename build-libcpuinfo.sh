@@ -12,6 +12,9 @@ mkdir -p $toolchain_dir
 
 if [ ! -e $source_dir ]; then
     git clone https://mirror.ghproxy.com/https://github.com/pytorch/cpuinfo $source_dir
+    cd $source_dir
+    git checkout 5de5c70fedc26e4477d14fdaad0e4eb5f354400b
+    cd $OLDPWD
 fi
 
 
@@ -88,6 +91,8 @@ build_instance() {
         -DCPUINFO_BUILD_BENCHMARKS=OFF \
         -DCPUINFO_BUILD_UNIT_TESTS=OFF \
         -DCPUINFO_BUILD_MOCK_TESTS=OFF \
+        -DDCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
         $source_dir
 
     make -j
@@ -116,6 +121,7 @@ build_instance() {
     chmod 777 $rid_dir/$rid/native/$libname
     ${toolchain}-objdump -x $libpath | grep NEEDED > $libpath.needed
     ldd $libpath >> $libpath.needed
+    cp $workdir/binding.c $libpath.binding.c
 }
 
 rm -rfv $rid_dir

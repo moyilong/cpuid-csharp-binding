@@ -12,8 +12,7 @@ namespace libCpuId.Test
         [SetUp]
         public void SetUp()
         {
-            if (!CpuInfoNative.binding_cpuinfo_initialize())
-                Assert.Fail();
+            CpuInfoManaged.Initialize();
         }
 
         [Test]
@@ -56,8 +55,7 @@ namespace libCpuId.Test
         [SetUp]
         public void SetUp()
         {
-            if (!CpuInfoNative.binding_cpuinfo_initialize())
-                Assert.Fail();
+            CpuInfoManaged.Initialize();
         }
 
         [Test]
