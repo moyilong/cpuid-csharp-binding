@@ -29,16 +29,6 @@ jobs:
         with:
           nuget-api-key: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: install gcc
-        run: |
-          apt update
-          apt install -y \
-            build-essential cmake git \
-            gcc-aarch64-linux-gnu \
-            gcc-arm-linux-gnueabi \
-            gcc-mingw-w64-i686 \
-            gcc-mingw-w64-x86-64
-
       - name: build native
         run: ./build.sh
 

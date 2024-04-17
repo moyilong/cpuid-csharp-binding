@@ -103,11 +103,10 @@ namespace Dragon.CpuInfo
             }
         }
 
-
         /// <summary>
         /// CPU Model
         /// </summary>
-        public static string libVersion
+        public static string BindingVersion
         {
             get
             {
@@ -175,6 +174,7 @@ namespace Dragon.CpuInfo
         /// L1 data
         /// </summary>
         public CpuCacheInfo L1D { get; internal set; }
+
         /// <summary>
         /// L2
         /// </summary>

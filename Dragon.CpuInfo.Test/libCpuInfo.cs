@@ -69,7 +69,7 @@ namespace libCpuId.Test
         {
             Console.WriteLine($"{CpuInfo.CpuModel} CPU:{CpuInfo.CpuCounts} Cores:{CpuInfo.CpuCores} Threads:{CpuInfo.CpuThreads}");
             Console.WriteLine($"Caches:{CpuInfo.CpuCaches}");
-            Console.WriteLine(CpuInfo.libVersion);
+            Console.WriteLine(CpuInfo.BindingVersion);
         }
 
         [Test]
