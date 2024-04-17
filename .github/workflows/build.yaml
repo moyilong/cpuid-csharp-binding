@@ -32,7 +32,7 @@ jobs:
           nuget-api-key: ${{ secrets.GITHUB_TOKEN }}
 
       - name: build native
-        run: bash -c ./build.sh
+        run: chmod a+x build.sh && ./build.sh
 
       - name: build csharp
         run: dotnet build -r .
