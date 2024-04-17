@@ -12,6 +12,7 @@ namespace libCpuId.Test
         [SetUp]
         public void SetUp()
         {
+
             CpuInfoManaged.Initialize();
         }
 
@@ -90,6 +91,10 @@ namespace libCpuId.Test
         [Test]
         public void CurrentFeatureMapper()
         {
+            if (!(from i in CpuInfoManaged.CpuFeatureCurrentArch
+                  where !i.Stat
+                  select true).Any())
+                Assert.Fail();
             foreach (var i in CpuInfoManaged.CpuFeatureCurrentArch)
             {
                 Console.WriteLine(i.ToString());

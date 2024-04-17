@@ -34,7 +34,10 @@ namespace Dragon.CpuInfo
         {
             if (Inited)
                 return;
+            CpuInfoNative.binding_cpuinfo_deinilize();
             Inited = CpuInfoNative.binding_cpuinfo_initialize();
+            if (Inited == false)
+                throw new InvalidProgramException();
         }
 
         /// <summary>

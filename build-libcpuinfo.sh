@@ -62,7 +62,7 @@ $(filter_cpuinfo_chsarp)
 }
 EOF
 
-CFLAGS="-static-libstdc++ -static-libgcc -Os -fPIC -pipe"
+CFLAGS="-static-libgcc -Os -fPIC -pipe"
 
 build_instance() {
     local arch=$1
@@ -91,8 +91,6 @@ build_instance() {
         -DCPUINFO_BUILD_BENCHMARKS=OFF \
         -DCPUINFO_BUILD_UNIT_TESTS=OFF \
         -DCPUINFO_BUILD_MOCK_TESTS=OFF \
-        -DDCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
         $source_dir
 
     make -j

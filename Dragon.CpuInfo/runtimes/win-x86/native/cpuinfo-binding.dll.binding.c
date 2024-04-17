@@ -17,8 +17,8 @@
 
 #define API_EXPORT CPUINFO_ABI
 
-#define FUNCTION_COPY(source, bool) \
-    API_EXPORT bool binding_##source() { return source(); }
+#define FUNCTION_COPY(source, type) \
+    API_EXPORT type binding_##source() { return source(); }
 
 #define STRUCT_API_COPY(native,type) \
     API_EXPORT type binding_##native() { type ret; memcpy(&ret,native(),sizeof(type)); }
@@ -55,6 +55,7 @@ API_EXPORT enum cpuinfo_uarch binding_cpuinfo_uarch()
 
 API_EXPORT bool binding_cpuinfo_initialize()
 {
+	cpuinfo_deinitialize();
 	return cpuinfo_initialize();
 }
 
