@@ -42,7 +42,7 @@ jobs:
         with:
           name: bindings
           path: |
-            packages/csharp/**/*.nupkg
+            **/*.nupkg
           if-no-files-found: error
 
       - name: publish nuget pkg
