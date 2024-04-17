@@ -1,0 +1,35 @@
+FROM alpine:latest
+
+RUN apk update && \
+    apk add musl-dev cmake git git-lfs bash make \
+            gcc g++ aria2
+
+ENV WORKDIR=/src
+ENV INSTALL_DIR=/install
+ENV musl=true
+
+
+#RUN curl https://musl.cc/aarch64-linux-musl-cross.tgz 
+
+WORKDIR /toolchain
+
+COPY --chmod=0777 ./install-musl-gcc.sh .
+
+
+RUN ./install-musl-gcc.sh x86_64-linux-musl
+RUN ./install-musl-gcc.sh riscv32-linux-musl
+RUN ./install-musl-gcc.sh riscv64-linux-musl
+RUN ./install-musl-gcc.sh aarch64-linux-musl
+RUN ./install-musl-gcc.sh arm-linux-musleabi
+
+
+ENV PATH=${PATH}:/toolchain/x86_64-linux-musl-cross/bin
+ENV PATH=${PATH}:/toolchain/riscv32-linux-musl-cross/bin
+ENV PATH=${PATH}:/toolchain/riscv64-linux-musl-cross/bin
+ENV PATH=${PATH}:/toolchain/aarch64-linux-musl-cross/bin
+ENV PATH=${PATH}:/toolchain/arm-linux-musleabi-cross/bin
+
+WORKDIR /
+
+ENTRYPOINT [ "bash", "-c" ]
+

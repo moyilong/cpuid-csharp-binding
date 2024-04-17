@@ -155,6 +155,31 @@ namespace Dragon.CpuInfo
             return name.Replace("_plus", "+").Replace("_", ".");
         }
 
+        public static string ComputeCache(Func<UInt32, CpuCacheInfo> caches, Func<UInt32> counter)
+        {
+            List<CpuCacheInfo> datas = new List<CpuCacheInfo>();
+            for (UInt32 n = 0; n < counter(); n++)
+            {
+                datas.Add(caches(n));
+            }
+            var pkgs = from i in datas
+                       group i by i.Partitons into g
+                       select new CpuCachePackage
+                       {
+                           Size = g.Key,
+                           Counts = g.Count()
+                       };
+            if (pkgs.Any())
+            {
+                return string.Join('+', from i in pkgs
+                                        select $"{i.Counts} x {Math.Round((double)i.Size / 1024.0f, 0.0)} KBytes");
+            }
+            else
+            {
+                return "none";
+            }
+        }
+
         /// <summary>
         /// Cpu Cache info
         /// </summary>

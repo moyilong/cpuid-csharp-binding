@@ -23,6 +23,9 @@
 #define STRUCT_API_COPY(native,type) \
     API_EXPORT type binding_##native() { type ret; memcpy(&ret,native(),sizeof(type)); }
 
+#define STRUCT_API_ARG_COPY(native,type) \
+	API_EXPORT type binding_##native(uint32_t index) {type ret ; memcpy(&ret,native(index),sizeof(type));}
+
 #define CPUINFO_VERSION_STR "Binding " RID_NAME " " __DATE__ " " __TIME__ " libcpuinfo: git+" CPUINFO_VERSION
 
 API_EXPORT int32_t binding_get_version(uint8_t* version) {
@@ -60,8 +63,29 @@ API_EXPORT void binding_cpuinfo_deinilize()
 	cpuinfo_deinitialize();
 }
 
+STRUCT_API_COPY(cpuinfo_get_processors, struct cpuinfo_processor);
+STRUCT_API_COPY(cpuinfo_get_cores, struct cpuinfo_core);
+STRUCT_API_COPY(cpuinfo_get_clusters, struct cpuinfo_cluster);
+STRUCT_API_COPY(cpuinfo_get_packages, struct cpuinfo_package);
+STRUCT_API_COPY(cpuinfo_get_uarchs, struct cpuinfo_uarch_info);
+
 STRUCT_API_COPY(cpuinfo_get_l1i_caches, struct cpuinfo_cache);
 STRUCT_API_COPY(cpuinfo_get_l1d_caches, struct cpuinfo_cache);
 STRUCT_API_COPY(cpuinfo_get_l2_caches, struct cpuinfo_cache);
 STRUCT_API_COPY(cpuinfo_get_l3_caches, struct cpuinfo_cache);
 STRUCT_API_COPY(cpuinfo_get_l4_caches, struct cpuinfo_cache);
+
+
+
+STRUCT_API_ARG_COPY(cpuinfo_get_processor, struct cpuinfo_processor);
+STRUCT_API_ARG_COPY(cpuinfo_get_core, struct cpuinfo_core);
+STRUCT_API_ARG_COPY(cpuinfo_get_cluster, struct cpuinfo_cluster);
+STRUCT_API_ARG_COPY(cpuinfo_get_package, struct cpuinfo_package);
+STRUCT_API_ARG_COPY(cpuinfo_get_uarch, struct cpuinfo_uarch_info);
+
+
+STRUCT_API_ARG_COPY(cpuinfo_get_l1i_cache, struct cpuinfo_cache);
+STRUCT_API_ARG_COPY(cpuinfo_get_l1d_cache, struct cpuinfo_cache);
+STRUCT_API_ARG_COPY(cpuinfo_get_l2_cache, struct cpuinfo_cache);
+STRUCT_API_ARG_COPY(cpuinfo_get_l3_cache, struct cpuinfo_cache);
+STRUCT_API_ARG_COPY(cpuinfo_get_l4_cache, struct cpuinfo_cache);

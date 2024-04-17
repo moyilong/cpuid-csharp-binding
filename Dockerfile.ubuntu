@@ -1,0 +1,22 @@
+FROM ubuntu:22.04
+
+RUN sed -i \
+        -e 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' \
+        -e 's/archive.ubuntu.com/mirrors.ustc.edu.cn/g' \
+        /etc/apt/sources.list
+
+RUN apt update && \
+    apt install -y \
+        cmake git git-lfs build-essential dos2unix musl-dev \
+        gcc-aarch64-linux-gnu \
+        gcc-arm-linux-gnueabi \
+        gcc-mingw-w64-i686 \
+        gcc-mingw-w64-x86-64 \
+        gcc-riscv64-linux-gnu
+
+ENV WORKDIR=/src
+ENV INSTALL_DIR=/install
+ENV musl=false
+
+
+ENTRYPOINT [ "bash", "-c" ]

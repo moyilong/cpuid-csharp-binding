@@ -1,9 +1,16 @@
-﻿using Dragon.CpuInfo.libCpuInfo;
+using Dragon.CpuInfo.libCpuInfo;
 using System;
 using System.Linq;
 
 namespace Dragon.CpuInfo
 {
+    public class CpuCachePackage
+    {
+        public int Counts { get; set; }
+
+        public long Size { get; set; }
+    }
+
     public class CpuCacheInfos
     {
         /// <summary>

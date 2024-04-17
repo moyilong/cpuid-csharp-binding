@@ -1,0 +1,3 @@
+  NEEDED               libc.so
+	/lib/ld-musl-x86_64.so.1 (0x7f4c14600000)
+	libc.so => /lib/ld-musl-x86_64.so.1 (0x7f4c14600000)
