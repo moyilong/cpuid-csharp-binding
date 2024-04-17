@@ -2,7 +2,7 @@ name: build
 
 on:
   workflow_dispatch:
-
+  push:
 
 permissions:
   actions: read
@@ -30,10 +30,24 @@ jobs:
         with:
           nuget-api-key: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: carlosperate/arm-none-eabi-gcc-action@v1
-
-      - name: build native
-        run: chmod a+x build.sh && ./build.sh
-
       - name: build csharp
         run: dotnet build -r .
+
+        - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: bindings
+          path: |
+            packages/csharp/**/*.nupkg
+            ~/nuget.tar.gz
+          if-no-files-found: error
+
+      - name: publish nuget pkg
+        run: |
+          find -type f | grep nupkg$ | grep -v 'symbols\.nupkg$' | while read line; do
+            echo "Pulish: $line"
+            nuget push $line \
+              -Source https://api.nuget.org/v3/index.json \
+              -ApiKey ${{ secrets.NUGET_TOKEN }} \
+              -SkipDuplicate
+          done
