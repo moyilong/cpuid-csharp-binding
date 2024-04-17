@@ -1,6 +1,6 @@
 namespace Dragon.CpuInfo.libCpuInfo
 {
-    public enum cpuinfo_page_size
+    public enum CpuinfoPageSize
     {
         page_4k = 0x1000,
         page_1m = 0x100000,

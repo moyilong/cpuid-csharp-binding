@@ -2,7 +2,7 @@ namespace Dragon.CpuInfo.libCpuInfo
 {
     /** Vendor of processor core design */
 
-    public enum cpuinfo_vendor
+    public enum CpuInfoVendor
     {
         /** Processor vendor is not known to the library, or the library failed
            to get vendor information from the OS. */

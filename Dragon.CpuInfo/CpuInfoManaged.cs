@@ -62,7 +62,7 @@ namespace Dragon.CpuInfo
         /// <summary>
         /// CPU Vendor
         /// </summary>
-        public static cpuinfo_vendor CpuVendor => CpuInfoNative.binding_cpuinfo_vendor();
+        public static CpuInfoVendor CpuVendor => CpuInfoNative.binding_cpuinfo_vendor();
 
         /// <summary>
         /// Cpu arch
@@ -147,6 +147,7 @@ namespace Dragon.CpuInfo
         /// Cpu Cache info
         /// </summary>
         [SuppressMessage("Style", "IDE0090")]
+        [Obsolete("Testing")]
         public static CpuCacheInfos CpuCacheInfo => new CpuCacheInfos
         {
             L1D = CpuInfoNative.binding_cpuinfo_get_l1d_caches(),
@@ -161,39 +162,31 @@ namespace Dragon.CpuInfo
             return string.Join(' ', from i in info.GetType().GetFields()
                                     select $"{i.Name}={i.GetValue(info)}");
         }
-    }
-
-    public class CpuCacheInfos
-    {
-        /// <summary>
-        /// L1 instruction
-        /// </summary>
-        public CpuCacheInfo L1I { get; internal set; }
 
         /// <summary>
-        /// L1 data
+        /// Convert Cpuvendor to string
         /// </summary>
-        public CpuCacheInfo L1D { get; internal set; }
-
-        /// <summary>
-        /// L2
-        /// </summary>
-        public CpuCacheInfo L2 { get; internal set; }
-
-        /// <summary>
-        /// L3
-        /// </summary>
-        public CpuCacheInfo L3 { get; internal set; }
-
-        /// <summary>
-        /// L4
-        /// </summary>
-        public CpuCacheInfo L4 { get; internal set; }
-
-        public override string ToString()
+        /// <param name="vendor"></param>
+        /// <returns></returns>
+        public static string GetCpuVendorString(this CpuInfoVendor vendor)
         {
-            return string.Join(Environment.NewLine, from i in typeof(CpuCacheInfos).GetProperties()
-                                                    select $"{i.Name} >> {((CpuCacheInfo)i.GetValue(this)).CacheInfoToString()}");
+            var ret = vendor.ToString().Substring("cpuinfo_vendor_".Length )
+                .Split('_');
+            return string.Join("", from i in ret
+                                   select $"{i.ToUpper()[0]}{new string(i.Skip(1).ToArray())}");
+        }
+
+        /// <summary>
+        /// Convert Cpuuarch to string
+        /// </summary>
+        /// <param name="vendor"></param>
+        /// <returns></returns>
+        public static string GetCpuUarchString(this CpuInfoUArch vendor)
+        {
+            var ret = vendor.ToString().Substring("cpuinfo_uarch_".Length)
+                .Split('_');
+            return string.Join("", from i in ret
+                                   select $"{i.ToUpper()[0]}{new string(i.Skip(1).ToArray())}");
         }
     }
 }

@@ -77,5 +77,23 @@ namespace libCpuId.Test
         {
             Console.WriteLine(CpuInfoManaged.CpuCacheInfo.ToString());
         }
+
+        private static readonly CpuInfoVendor[] vendors = Enum.GetValues<CpuInfoVendor>().ToArray();
+
+        [TestCaseSource(nameof(vendors))]
+        public void VendorToString(CpuInfoVendor vendor)
+        {
+            Console.WriteLine(vendor.GetCpuVendorString());
+        }
+
+
+
+        private static readonly CpuInfoUArch[] uarchs = Enum.GetValues<CpuInfoUArch>().ToArray();
+
+        [TestCaseSource(nameof(uarchs))]
+        public void UarchToString(CpuInfoUArch vendor)
+        {
+            Console.WriteLine(vendor.GetCpuUarchString());
+        }
     }
 }
