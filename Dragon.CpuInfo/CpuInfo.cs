@@ -103,6 +103,22 @@ namespace Dragon.CpuInfo
             }
         }
 
+
+        /// <summary>
+        /// CPU Model
+        /// </summary>
+        public static string libVersion
+        {
+            get
+            {
+                byte[] buffer = new byte[1024];
+                var len = CpuInfoNative.binding_get_version(buffer);
+                if (len == -1)
+                    return "invalid-result";
+                return Encoding.ASCII.GetString(buffer.Take(len).ToArray()).Trim();
+            }
+        }
+
         /// <summary>
         /// Count of CPU (slote)
         /// </summary>
@@ -131,6 +147,7 @@ namespace Dragon.CpuInfo
         /// <summary>
         /// Cpu Cache info
         /// </summary>
+        [SuppressMessage("Style", "IDE0090")]
         public static CpuCacheInfos CpuCacheInfo => new CpuCacheInfos
         {
             L1D = CpuInfoNative.binding_cpuinfo_get_l1d_caches(),
