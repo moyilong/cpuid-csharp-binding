@@ -9,7 +9,7 @@ namespace Dragon.CpuInfo.libCpuInfo
     /// </summary>
     public static partial class CpuInfoNative
     {
-        private const string libName = "cpuinfo";
+        private const string libName = "cpuinfo-binding";
 
         [DllImport(libName)]
         public static extern bool binding_cpuinfo_initialize();

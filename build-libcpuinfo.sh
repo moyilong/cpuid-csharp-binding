@@ -92,13 +92,13 @@ build_instance() {
     echo "Install:$install_file"
 
     if [ "$os" == "Linux" ]; then
-        libname=libcpuinfo.so
+        libname=libcpuinfo-binding.so
     fi
     if [ "$os" == "Windows" ]; then
-        libname=cpuinfo.dll
+        libname=cpuinfo-binding.dll
     fi
     if [ "$os" == "osx" ]; then
-        libname=libcpuinfo.dylib
+        libname=libcpuinfo-binding.dylib
     fi
 
     local libpath=$rid_dir/$rid/native/$libname
@@ -127,15 +127,18 @@ build_instance aarch64 Linux aarch64-linux-gnu linux-arm64
 # gcc-arm-linux-gnueabi
 build_instance armv6 Linux arm-linux-gnueabi linux-arm
 
-
 # gcc-mingw-w64-i686
 build_instance i686 Windows i686-w64-mingw32 win-x86
 
 # gcc-mingw-w64-x86-64
 build_instance x86_64 Windows x86_64-w64-mingw32 win-x64
 
+# gcc-riscv64-linux-gnu
+build_instance riscv64 Linux riscv64-linux-gnu linux-rv64
 
-rm -rfv $workdir/../libCpuId/runtimes/
-mkdir -p $workdir/../libCpuId/runtimes/
-cp -vr $rid_dir/* $workdir/../libCpuId/runtimes/
-chmod 777 -R $workdir/../libCpuId/runtimes/
+
+
+rm -rfv $workdir/../Dragon.CpuInfo/runtimes/
+mkdir -p $workdir/../Dragon.CpuInfo/runtimes/
+cp -vr $rid_dir/* $workdir/../Dragon.CpuInfo/runtimes/
+chmod 777 -R $workdir/../Dragon.CpuInfo/runtimes/
