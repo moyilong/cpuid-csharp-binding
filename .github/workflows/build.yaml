@@ -7,7 +7,7 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
-  
+
 permissions:
   actions: read
   contents: write
@@ -35,7 +35,7 @@ jobs:
           nuget-api-key: ${{ secrets.GITHUB_TOKEN }}
 
       - name: build csharp
-        run: dotnet build -p:Configuration=Release -p:Version:1.0.0.${{ env.GITHUB_RUN_NUMBER }}
+        run: dotnet build -p:Configuration=Release -p:Version:1.0.0.$GITHUB_RUN_NUMBER
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
