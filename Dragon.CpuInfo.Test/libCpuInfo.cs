@@ -31,13 +31,13 @@ namespace libCpuId.Test
         [Test]
         public void Features()
         {
-            Console.WriteLine(string.Join(Environment.NewLine, CpuInfo.CpuFeatures));
+            Console.WriteLine(string.Join(Environment.NewLine, CpuInfoManaged.CpuFeatures));
         }
 
         [Test]
         public void FeatureMapper()
         {
-            foreach (var i in CpuInfo.CpuFeatureMappers)
+            foreach (var i in CpuInfoManaged.CpuFeatureMappers)
             {
                 Console.WriteLine(i.ToString());
             }
@@ -46,7 +46,7 @@ namespace libCpuId.Test
         [Test]
         public void CurrentFeatureMapper()
         {
-            foreach (var i in CpuInfo.CpuFeatureCurrentArch)
+            foreach (var i in CpuInfoManaged.CpuFeatureCurrentArch)
             {
                 Console.WriteLine(i.ToString());
             }
@@ -55,27 +55,27 @@ namespace libCpuId.Test
         [Test]
         public void Vendor()
         {
-            Console.WriteLine(CpuInfo.CpuVendor);
+            Console.WriteLine(CpuInfoManaged.CpuVendor);
         }
 
         [Test]
         public void Uarch()
         {
-            Console.WriteLine(CpuInfo.CpuUArch);
+            Console.WriteLine(CpuInfoManaged.CpuUArch);
         }
 
         [Test]
         public void Model()
         {
-            Console.WriteLine($"{CpuInfo.CpuModel} CPU:{CpuInfo.CpuCounts} Cores:{CpuInfo.CpuCores} Threads:{CpuInfo.CpuThreads}");
-            Console.WriteLine($"Caches:{CpuInfo.CpuCaches}");
-            Console.WriteLine(CpuInfo.BindingVersion);
+            Console.WriteLine($"{CpuInfoManaged.CpuModel} CPU:{CpuInfoManaged.CpuCounts} Cores:{CpuInfoManaged.CpuCores} Threads:{CpuInfoManaged.CpuThreads}");
+            Console.WriteLine($"Caches:{CpuInfoManaged.CpuCaches}");
+            Console.WriteLine(CpuInfoManaged.BindingVersion);
         }
 
         [Test]
         public void CacheInfo()
         {
-            Console.WriteLine(CpuInfo.CpuCacheInfo.ToString());
+            Console.WriteLine(CpuInfoManaged.CpuCacheInfo.ToString());
         }
     }
 }

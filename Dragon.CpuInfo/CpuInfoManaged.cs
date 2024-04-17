@@ -14,12 +14,12 @@ using System.Text;
 namespace Dragon.CpuInfo
 {
     /// <summary>
-    /// CpuInfo
+    /// CpuInfoManaged
     /// </summary>
     [SuppressMessage("Style", "IDE0301")]
-    public static class CpuInfo
+    public static class CpuInfoManaged
     {
-        static CpuInfo()
+        static CpuInfoManaged()
         {
         }
 
