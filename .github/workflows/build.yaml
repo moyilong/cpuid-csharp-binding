@@ -39,7 +39,6 @@ jobs:
           name: bindings
           path: |
             packages/csharp/**/*.nupkg
-            ~/nuget.tar.gz
           if-no-files-found: error
 
       - name: publish nuget pkg
