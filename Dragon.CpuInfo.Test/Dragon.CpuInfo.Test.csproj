@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\libCpuId\Dragon.CpuInfo.csproj" />
+    <ProjectReference Include="..\Dragon.CpuInfo\Dragon.CpuInfo.csproj" />
   </ItemGroup>
 
   <ItemGroup>

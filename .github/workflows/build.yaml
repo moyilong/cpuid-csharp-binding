@@ -1,0 +1,46 @@
+name: build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+  id-token: write
+  security-events: write
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v3
+        name: install dotnet
+        with:
+          dotnet-version: |
+            8.0
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: nuget/setup-nuget@v1
+        name: install nuget
+        with:
+          nuget-api-key: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: install gcc
+        run: |
+          apt update
+          apt install -y \
+            build-essential cmake git \
+            gcc-aarch64-linux-gnu \
+            gcc-arm-linux-gnueabi \
+            gcc-mingw-w64-i686 \
+            gcc-mingw-w64-x86-64
+
+      - name: build native
+        run: ./build.sh
+
+      - name: build csharp
+        run: dotnet build -r .
