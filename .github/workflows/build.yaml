@@ -31,7 +31,7 @@ jobs:
           nuget-api-key: ${{ secrets.GITHUB_TOKEN }}
 
       - name: build csharp
-        run: dotnet build -p:Configuration=Release
+        run: dotnet build -p:Configuration=Release -p:Version:1.0.0.${{ env.GITHUB_RUN_NUMBER }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
