@@ -86,8 +86,6 @@ namespace libCpuId.Test
             Console.WriteLine(vendor.GetCpuVendorString());
         }
 
-
-
         private static readonly CpuInfoUArch[] uarchs = Enum.GetValues<CpuInfoUArch>().ToArray();
 
         [TestCaseSource(nameof(uarchs))]

@@ -11,7 +11,7 @@ Characteristics 0x2026
 	large address aware
 	DLL
 
-Time/Date		Wed Apr 17 15:30:55 2024
+Time/Date		Wed Apr 17 16:24:04 2024
 Magic			020b	(PE32+)
 MajorLinkerVersion	2
 MinorLinkerVersion	38
@@ -32,7 +32,7 @@ MinorSubsystemVersion	2
 Win32Version		00000000
 SizeOfImage		00075000
 SizeOfHeaders		00000600
-CheckSum		00083c39
+CheckSum		00085422
 Subsystem		00000003	(Windows CUI)
 DllCharacteristics	00000160
 					HIGH_ENTROPY_VA
@@ -133,7 +133,7 @@ There is an export table in .edata at 0x2b2794000
 The Export Tables (interpreted .edata section contents)
 
 Export Flags 			0
-Time/Date stamp 		661f7aaf
+Time/Date stamp 		661f8724
 Major/Minor 			0/0
 Name 				00000000000148ac cpuinfo-binding.dll
 Ordinal Base 			1

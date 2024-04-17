@@ -68,10 +68,6 @@ build_instance() {
 
     mkdir -p $local_build
 
-    #if [ "$os" == "Windows" ]; then
-    #    local CFLAGS="-static $CFLAGS"
-    #fi
-
     cd $local_build 
     cmake \
         -DCMAKE_INSTALL_PREFIX=/usr \

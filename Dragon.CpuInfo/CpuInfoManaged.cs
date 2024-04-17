@@ -19,8 +19,20 @@ namespace Dragon.CpuInfo
     [SuppressMessage("Style", "IDE0301")]
     public static class CpuInfoManaged
     {
-        static CpuInfoManaged()
+        /// <summary>
+        /// Deinitialize
+        /// </summary>
+        public static void Deinitialize()
         {
+            CpuInfoNative.binding_cpuinfo_deinilize();
+        }
+
+        /// <summary>
+        /// Initialize call first
+        /// </summary>
+        public static void Initialize()
+        {
+            CpuInfoNative.binding_cpuinfo_initialize();
         }
 
         /// <summary>
@@ -170,7 +182,7 @@ namespace Dragon.CpuInfo
         /// <returns></returns>
         public static string GetCpuVendorString(this CpuInfoVendor vendor)
         {
-            var ret = vendor.ToString().Substring("cpuinfo_vendor_".Length )
+            var ret = vendor.ToString().Substring("cpuinfo_vendor_".Length)
                 .Split('_');
             return string.Join("", from i in ret
                                    select $"{i.ToUpper()[0]}{new string(i.Skip(1).ToArray())}");
