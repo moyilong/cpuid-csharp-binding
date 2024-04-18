@@ -32,7 +32,9 @@ jobs:
         name: install nuget
         with:
           nuget-api-key: ${{ secrets.GITHUB_TOKEN }}
-      - run: ./build.sh
+      - run: |
+          chmod a+x build.sh
+          ./build.sh
       - name: build csharp
         run: dotnet build -p:Configuration=Release -p:Version=1.0.0.${{ github.run_number }}
 
