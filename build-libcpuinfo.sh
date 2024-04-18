@@ -74,9 +74,9 @@ build_instance() {
  
     local local_cflags=$CFLAGS
 
-    if [ "$musl" == "true" ]; then
-        local_cflags="-static $CFLAGS"
-    fi
+    # if [ "$musl" == "true" ]; then
+    #    local_cflags="-static $CFLAGS"
+    # fi
     
     mkdir -p $local_build
 
