@@ -8,6 +8,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决�
 		binding.c = binding.c
 		build-libcpuinfo.sh = build-libcpuinfo.sh
 		build.sh = build.sh
+		.github\workflows\build.yaml = .github\workflows\build.yaml
+		.github\workflows\test.yaml = .github\workflows\test.yaml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dragon.CpuInfo", "Dragon.CpuInfo\Dragon.CpuInfo.csproj", "{EA46C9B9-966C-4E02-8A5E-815BA3A21CED}"

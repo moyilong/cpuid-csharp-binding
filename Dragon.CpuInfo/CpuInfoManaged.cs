@@ -19,36 +19,13 @@ namespace Dragon.CpuInfo
     public static class CpuInfoManaged
     {
         /// <summary>
-        /// Deinitialize
-        /// </summary>
-        public static void Deinitialize()
-        {
-            CpuInfoNative.binding_cpuinfo_deinilize();
-            Inited = false;
-        }
-        static bool Inited = false;
-        /// <summary>
-        /// Initialize call first
-        /// </summary>
-        public static void Initialize()
-        {
-            if (Inited)
-                return;
-            CpuInfoNative.binding_cpuinfo_deinilize();
-            Inited = CpuInfoNative.binding_cpuinfo_initialize();
-            if (Inited == false)
-                throw new InvalidProgramException();
-        }
-
-        /// <summary>
         /// Cpu instruction set
         /// </summary>
         public static IEnumerable<string> CpuFeatures => from i in CpuFeatureMappers
                                                          where i.Stat
                                                          select i.Name;
 
-
-        static readonly object[] dummy_objects= Array.Empty<object>();
+        private static readonly object[] dummy_objects = Array.Empty<object>();
 
         /// <summary>
         /// Cpu instruction set

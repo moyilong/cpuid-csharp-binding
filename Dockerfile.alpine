@@ -14,7 +14,7 @@ ENV musl=true
 WORKDIR /toolchain
 
 COPY --chmod=0777 ./install-musl-gcc.sh .
-
+RUN dos2unix ./install-musl-gcc.sh
 
 RUN ./install-musl-gcc.sh x86_64-linux-musl
 RUN ./install-musl-gcc.sh riscv32-linux-musl

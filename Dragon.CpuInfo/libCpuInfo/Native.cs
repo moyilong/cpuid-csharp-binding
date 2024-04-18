@@ -12,11 +12,9 @@ namespace Dragon.CpuInfo.libCpuInfo
         private const string libName = "cpuinfo-binding";
 
         [DllImport(libName)]
-        [Obsolete()]
         public static extern bool binding_cpuinfo_initialize();
 
         [DllImport(libName)]
-        [Obsolete()]
         public static extern void binding_cpuinfo_deinilize();
 
         [DllImport(libName)]

@@ -13,7 +13,8 @@ mkdir -p $toolchain_dir
 if [ ! -e $source_dir ]; then
     git clone https://mirror.ghproxy.com/https://github.com/pytorch/cpuinfo $source_dir
     cd $source_dir
-    git checkout 5de5c70fedc26e4477d14fdaad0e4eb5f354400b
+    #git checkout f42f5eaf0bbeabd3a1153651cd2a5989faac4f58
+    #git checkout 5de5c70fedc26e4477d14fdaad0e4eb5f354400b
     cd $OLDPWD
 fi
 
@@ -99,12 +100,15 @@ build_instance() {
 
     if [ "$os" == "Linux" ]; then
         libname=libcpuinfo-binding.so
+        libexec_name=cpuinfo-binding
     fi
     if [ "$os" == "Windows" ]; then
         libname=cpuinfo-binding.dll
+        libexec_name=cpuinfo-binding.exe
     fi
     if [ "$os" == "osx" ]; then
         libname=libcpuinfo-binding.dylib
+        libexec_name=cpuinfo-binding
     fi
 
     local libpath=$rid_dir/$rid/native/$libname
@@ -116,10 +120,16 @@ build_instance() {
         -L$local_build -lcpuinfo_internals -lcpuinfo -I$source_dir/include \
         -o $rid_dir/$rid/native/$libname || exit -1
 
+    #${toolchain}-gcc $local_cflags -fPIC $workdir/binding.c -DCOMPILE_MODE \
+    #    -DCPUINFO_VERSION="\"$cpuinfo_version\"" -DRID_NAME="\"$rid\""\
+    #    -L$local_build -lcpuinfo_internals -lcpuinfo -I$source_dir/include \
+    #    -o $rid_dir/$rid/native/$libexec_name || exit -1
+
     chmod 777 $rid_dir/$rid/native/$libname
     ${toolchain}-objdump -x $libpath | grep NEEDED > $libpath.needed
     ldd $libpath >> $libpath.needed
-    cp $workdir/binding.c $libpath.binding.c
+    #cp $workdir/binding.c $libpath.binding.c
+    #cp $workdir/binding.cs $libpath.binding.csg
 }
 
 rm -rfv $rid_dir

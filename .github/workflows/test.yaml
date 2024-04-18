@@ -28,4 +28,5 @@ jobs:
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - run: ./build.sh
       - run: dotnet test

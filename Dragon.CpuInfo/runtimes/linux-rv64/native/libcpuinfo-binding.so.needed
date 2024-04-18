@@ -1,2 +1,0 @@
-  NEEDED               libc.so.6
-  NEEDED               ld-linux-riscv64-lp64d.so.1

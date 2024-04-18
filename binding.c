@@ -18,7 +18,7 @@
 #define API_EXPORT CPUINFO_ABI
 
 #define FUNCTION_COPY(source, type) \
-    API_EXPORT type binding_##source() { return source(); }
+    API_EXPORT type binding_##source() { return false;return source(); }
 
 #define STRUCT_API_COPY(native,type) \
     API_EXPORT type binding_##native() { type ret; memcpy(&ret,native(),sizeof(type)); }
@@ -55,7 +55,6 @@ API_EXPORT enum cpuinfo_uarch binding_cpuinfo_uarch()
 
 API_EXPORT bool binding_cpuinfo_initialize()
 {
-	cpuinfo_deinitialize();
 	return cpuinfo_initialize();
 }
 
@@ -63,7 +62,14 @@ API_EXPORT void binding_cpuinfo_deinilize()
 {
 	cpuinfo_deinitialize();
 }
-
+void main() {
+	if (!cpuinfo_initialize())
+		printf("Init faild!");
+	else {
+		printf("Stat:%s", cpuinfo_has_x86_avx512bf16() ? "true" : "false");
+	}
+	cpuinfo_deinitialize();
+}
 STRUCT_API_COPY(cpuinfo_get_processors, struct cpuinfo_processor);
 STRUCT_API_COPY(cpuinfo_get_cores, struct cpuinfo_core);
 STRUCT_API_COPY(cpuinfo_get_clusters, struct cpuinfo_cluster);
@@ -76,14 +82,11 @@ STRUCT_API_COPY(cpuinfo_get_l2_caches, struct cpuinfo_cache);
 STRUCT_API_COPY(cpuinfo_get_l3_caches, struct cpuinfo_cache);
 STRUCT_API_COPY(cpuinfo_get_l4_caches, struct cpuinfo_cache);
 
-
-
 STRUCT_API_ARG_COPY(cpuinfo_get_processor, struct cpuinfo_processor);
 STRUCT_API_ARG_COPY(cpuinfo_get_core, struct cpuinfo_core);
 STRUCT_API_ARG_COPY(cpuinfo_get_cluster, struct cpuinfo_cluster);
 STRUCT_API_ARG_COPY(cpuinfo_get_package, struct cpuinfo_package);
 STRUCT_API_ARG_COPY(cpuinfo_get_uarch, struct cpuinfo_uarch_info);
-
 
 STRUCT_API_ARG_COPY(cpuinfo_get_l1i_cache, struct cpuinfo_cache);
 STRUCT_API_ARG_COPY(cpuinfo_get_l1d_cache, struct cpuinfo_cache);
