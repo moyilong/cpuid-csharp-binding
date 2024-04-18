@@ -1,7 +1,7 @@
 name: build
 
 on:
-  workflow_dispatch:
+  tags:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
