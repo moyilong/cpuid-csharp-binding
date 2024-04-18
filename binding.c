@@ -118,7 +118,7 @@ uint32_t copy_yaml(char *yaml)
 	put_yaml_stri(yaml, "clusters", "", 1);
 	for (int cluster = 0; cluster < cpuinfo_get_clusters_count(); cluster++)
 	{
-		struct cpuinfo_cluster *clu = cpuinfo_get_cluster(cluster);
+		const struct cpuinfo_cluster *clu = cpuinfo_get_cluster(cluster);
 		if (clu == NULL)
 			break;
 
@@ -129,7 +129,7 @@ uint32_t copy_yaml(char *yaml)
 
 		for (int proc = 0; proc < clu->core_count; proc++)
 		{
-			struct cpuinfo_core *core = cpuinfo_get_core(proc + clu->core_start);
+			const struct cpuinfo_core *core = cpuinfo_get_core(proc + clu->core_start);
 			put_yaml_inte(yaml, "- id", core->core_id, 3);
 			put_yaml_inte(yaml, "vendor", core->vendor, 3);
 			put_yaml_inte(yaml, "uarch", core->uarch, 3);
@@ -283,7 +283,7 @@ uint32_t copy_yaml(char *yaml)
 }
 API_EXPORT uint32_t copy_yaml_api(uint8_t *yaml, uint32_t max)
 {
-	if (max < 32768)
+	if (max < YAML_SIZE)
 	{
 		strcpy(yaml, "buffer too small");
 		return -1;
@@ -298,14 +298,4 @@ void main()
 	char yaml[YAML_SIZE] = {0x00};
 	copy_yaml(yaml);
 	printf("%s", yaml);
-}
-
-API_EXPORT void binding_cpuinfo_deinitialize()
-{
-	cpuinfo_deinitialize();
-}
-
-API_EXPORT bool binding_cpuinfo_initialize()
-{
-	cpuinfo_initialize();
 }
