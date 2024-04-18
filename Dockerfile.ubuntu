@@ -19,7 +19,7 @@ ENV INSTALL_DIR=/install
 ENV musl=false
 
 COPY --chmod=0777 ./build-libcpuinfo.sh /
-COPY --chmod=0777 ./building.c /
+COPY --chmod=0777 ./binding.c /
 RUN dos2unix /build-libcpuinfo.sh
 
 ENTRYPOINT [ "bash", "-c" ]
