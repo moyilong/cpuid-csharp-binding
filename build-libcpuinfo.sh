@@ -35,7 +35,7 @@ filter_cpuinfo(){
 }
 
 filter_cpuinfo_chsarp(){
-    filter_cpuinfo | sed 's/uint32_t/UInt32/g' | while read line; do 
+    filter_cpuinfo | sed 's/uint32_t/UInt32/g' | grep -v binding_cpuinfo_initialize | while read line; do 
         local funcname="binding_$(echo $line | awk -F ',' '{print $1}' | sed 's/FUNCTION_COPY(//g')"
         local funcret="$(echo $line | awk -F ',' '{print $2}' | sed 's/);//g')"
         cat - << EOF
@@ -47,8 +47,8 @@ EOF
 
 
 cat ./binding.c > $workdir/binding.c
-echo -e "\n\n\n" >> $workdir/binding.c
-filter_cpuinfo >> $workdir/binding.c
+#echo -e "\n\n\n" >> $workdir/binding.c
+#filter_cpuinfo >> $workdir/binding.c
 
 cat - << EOF > $workdir/binding.cs
 using System;
@@ -63,7 +63,7 @@ $(filter_cpuinfo_chsarp)
 }
 EOF
 
-CFLAGS="-static-libgcc -Os -fPIC -pipe"
+CFLAGS="-Os -fPIC -pipe"
 
 build_instance() {
     local arch=$1
@@ -84,11 +84,11 @@ build_instance() {
     cmake \
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_SYSTEM_NAME=$os \
-        -DCMAKE_C_FLAGS="$local_cflags" \
+        -DCMAKE_C_FLAGS="$CFLAGS" \
         -DCMAKE_C_COMPILER=${toolchain}-gcc \
         -DCMAKE_SYSTEM_PROCESSOR=$arch \
-        -DCPUINFO_LIBRARY_TYPE=static \
-        -DCPUINFO_RUNTIME_TYPE=static \
+        -DCPUINFO_LIBRARY_TYPE=shared \
+        -DCPUINFO_RUNTIME_TYPE=shared \
         -DCPUINFO_BUILD_BENCHMARKS=OFF \
         -DCPUINFO_BUILD_UNIT_TESTS=OFF \
         -DCPUINFO_BUILD_MOCK_TESTS=OFF \
@@ -113,17 +113,15 @@ build_instance() {
 
     local libpath=$rid_dir/$rid/native/$libname
 
-    #cp $local_build/$liborigname $rid_dir/$rid/native/$libname
-    
-    ${toolchain}-gcc $local_cflags -shared -fPIC $workdir/binding.c -DCOMPILE_MODE \
+    ${toolchain}-gcc $CFLAGS -shared $workdir/binding.c -DCOMPILE_MODE \
         -DCPUINFO_VERSION="\"$cpuinfo_version\"" -DRID_NAME="\"$rid\""\
         -L$local_build -lcpuinfo_internals -lcpuinfo -I$source_dir/include \
         -o $rid_dir/$rid/native/$libname || exit -1
 
-    #${toolchain}-gcc $local_cflags -fPIC $workdir/binding.c -DCOMPILE_MODE \
-    #    -DCPUINFO_VERSION="\"$cpuinfo_version\"" -DRID_NAME="\"$rid\""\
-    #    -L$local_build -lcpuinfo_internals -lcpuinfo -I$source_dir/include \
-    #    -o $rid_dir/$rid/native/$libexec_name || exit -1
+    ${toolchain}-gcc $CFLAGS $workdir/binding.c -DCOMPILE_MODE \
+        -DCPUINFO_VERSION="\"$cpuinfo_version\"" -DRID_NAME="\"$rid\""\
+        -L$local_build -lcpuinfo_internals -lcpuinfo -I$source_dir/include \
+        -o $rid_dir/$rid/native/$libexec_name || exit -1
 
     chmod 777 $rid_dir/$rid/native/$libname
     ${toolchain}-objdump -x $libpath | grep NEEDED > $libpath.needed
