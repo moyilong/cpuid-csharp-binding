@@ -87,8 +87,8 @@ build_instance() {
         -DCMAKE_C_FLAGS="$CFLAGS" \
         -DCMAKE_C_COMPILER=${toolchain}-gcc \
         -DCMAKE_SYSTEM_PROCESSOR=$arch \
-        -DCPUINFO_LIBRARY_TYPE=shared \
-        -DCPUINFO_RUNTIME_TYPE=shared \
+        -DCPUINFO_LIBRARY_TYPE=static \
+        -DCPUINFO_RUNTIME_TYPE=static \
         -DCPUINFO_BUILD_BENCHMARKS=OFF \
         -DCPUINFO_BUILD_UNIT_TESTS=OFF \
         -DCPUINFO_BUILD_MOCK_TESTS=OFF \
