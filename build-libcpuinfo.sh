@@ -109,14 +109,12 @@ build_instance() {
 
     make -j
     mkdir -p $rid_dir/$rid/native/
-    install_file="$(find $local_build -type f | grep -E 'so$|dll$|dylib$')"
 
-    
     ${toolchain_compiler} $binding_flags -shared -o $libpath || exit -1
-    #${toolchain_compiler} $binding_flags -o $libexec_path || (echo "unable to create exe" ; exit -1)
+    #${toolchain_compiler} $binding_flags -o $libexec_path || exit -1
 
     chmod 777 $rid_dir/$rid/native/$libname
-    #chmod 777 $rid_dir/$rid/native/$libexec_path
+    chmod 777 $rid_dir/$rid/native/$libexec_path
 }
 
 
