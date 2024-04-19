@@ -5,16 +5,17 @@ install_dir=${INSTALL_DIR:-$workdir/../Dragon.CpuInfo/runtimes/}
 toolchain_dir=$workdir/toolchain
 build_dir=$workdir/build
 
-source_dir=$workdir/cpuid
+source_dir=${SOURCE_DIR:-$workdir/cpuid}
 rid_dir=$workdir/rid
 
 mkdir -p $toolchain_dir
 
-if [ ! -e $source_dir ]; then
+if [ ! -e $source_dir/.git ]; then
     git clone https://mirror.ghproxy.com/https://github.com/pytorch/cpuinfo $source_dir
+    
+else
     cd $source_dir
-    #git checkout f42f5eaf0bbeabd3a1153651cd2a5989faac4f58
-    #git checkout 5de5c70fedc26e4477d14fdaad0e4eb5f354400b
+    git pull
     cd $OLDPWD
 fi
 
@@ -22,83 +23,22 @@ fi
 cpuinfo_version="$(cd $source_dir && git rev-parse HEAD)"
 echo $cpuinfo_version
 
-filter_cpuinfo(){
-    cat $source_dir/include/cpuinfo.h | \
-        grep '(void)' | sed 's/(void)//g' | \
-        grep -E '^static inline' | \
-        awk '{print  "FUNCTION_COPY(" $(NF-1) "," $(NF-2) ");" }'
 
-    cat $source_dir/include/cpuinfo.h | \
-        grep '(void)' | sed 's/(void)//g' | tr -d ';' | \
-        grep -E '^uint32_t CPUINFO_ABI' | \
-        awk '{print  "FUNCTION_COPY(" $(3) "," $(1) ");" }'
-}
-
-filter_cpuinfo_chsarp(){
-    filter_cpuinfo | sed 's/uint32_t/UInt32/g' | grep -v binding_cpuinfo_initialize | while read line; do 
-        local funcname="binding_$(echo $line | awk -F ',' '{print $1}' | sed 's/FUNCTION_COPY(//g')"
-        local funcret="$(echo $line | awk -F ',' '{print $2}' | sed 's/);//g')"
-        cat - << EOF
-        [DllImport(libName)]
-        public static extern $funcret $funcname();
-EOF
-    done
-}
-
-
-cat ./binding.c > $workdir/binding.c
-#echo -e "\n\n\n" >> $workdir/binding.c
-#filter_cpuinfo >> $workdir/binding.c
-
-cat - << EOF > $workdir/binding.cs
-using System;
-using System.Runtime.InteropServices;
-
-namespace Dragon.CpuInfo.libCpuInfo
-{
-    public static partial class CpuInfoNative
-    {
-$(filter_cpuinfo_chsarp)
-    }
-}
-EOF
+binding_source=$PWD/binding.c
 
 CFLAGS="-Os -fPIC -pipe"
 
 build_instance() {
-    local arch=$1
-    local os=$2
-    local toolchain=$3
-    local rid=$4
-    local local_build=$build_dir/$os/$arch
+    arch=$1
+    os=$2
+    toolchain=$3
+    rid=$4
+    local_build=$build_dir/$os/$arch
  
-    local local_cflags=$CFLAGS
+    local_cflags=$CFLAGS
 
-    # if [ "$musl" == "true" ]; then
-    #    local_cflags="-static $CFLAGS"
-    # fi
-    
-    mkdir -p $local_build
-
-    cd $local_build 
-    cmake \
-        -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_SYSTEM_NAME=$os \
-        -DCMAKE_C_FLAGS="$CFLAGS" \
-        -DCMAKE_C_COMPILER=${toolchain}-gcc \
-        -DCMAKE_SYSTEM_PROCESSOR=$arch \
-        -DCPUINFO_LIBRARY_TYPE=static \
-        -DCPUINFO_RUNTIME_TYPE=static \
-        -DCPUINFO_BUILD_BENCHMARKS=OFF \
-        -DCPUINFO_BUILD_UNIT_TESTS=OFF \
-        -DCPUINFO_BUILD_MOCK_TESTS=OFF \
-        $source_dir
-
-    make -j
-    mkdir -p $rid_dir/$rid/native/
-    install_file="$(find $local_build -type f | grep -E 'so$|dll$|dylib$')"
-
-    if [ "$os" == "Linux" ]; then
+    android_flags=""
+    if [ "$os" == "Linux" ] || [ "$os" == "Android" ]; then
         libname=libcpuinfo-binding.so
         libexec_name=cpuinfo-binding
     fi
@@ -110,25 +50,75 @@ build_instance() {
         libname=libcpuinfo-binding.dylib
         libexec_name=cpuinfo-binding
     fi
+    libpath=$rid_dir/$rid/native/$libname
+    libexec_path=$rid_dir/$rid/native/$libexec_name
+    binding_definition="-DCOMPILE_MODE  -DRID_NAME=\"$rid\" -DCPUINFO_VERSION=\"$cpuinfo_version\""
+    binding_link="-L$local_build -lcpuinfo"
+    binding_flags="$CLFAGS -fPIC -I$source_dir/include $binding_source $binding_link $binding_definition"
+    
+    toolchain_compiler="notfound"
+    android_abi
+    android_level
+    if [ "$android" == "true" ]; then
+        export PATH=$PATH:$NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/bin
+        case $arch in 
+            x86_64)
+                android_abi="x86_64"
+                toolchain_compiler="x86_64-linux-android21-clang"
+            ;;
+            x86)
+                android_abi="x86"
+                toolchain_compiler="i686-linux-android21-clang"
+            ;;
+            aarch64|arm64)
+                android_abi="arm64-v8a"
+                toolchain_compiler="aarch64-linux-android21-clang"
+            ;;
+            arm)
+                android_abi="armeabi-v7a"
+                toolchain_compiler="armv7a-linux-androideabi21-clang"
+            ;;
+        esac
+        android_flags="$android_flags -DCMAKE_TOOLCHAIN_FILE=$NDK_ROOT/build/cmake/android.toolchain.cmake"
+        android_flags="$android_flags -DANDROID_NDK=$NDK_ROOT"
+        android_flags="$android_flags -DANDROID_ABI=$android_abi"
+        android_flags="$android_flags -DANDROID_PLATFORM=android-21"
+        android_flags="$android_flags -DANDROID_PIE=ON"
+        android_flags="$android_flags -DANDROID_STL=c++_static"
+        android_flags="$android_flags -DANDROID_CPP_FEATURES=exceptions"
+    else
+        toolchain_compiler=${toolchain}-gcc
+        android_flags="$android_flags -DCMAKE_C_COMPILER=${toolchain_compiler}"
+        android_flags="$android_flags -DCMAKE_SYSTEM_NAME=$os"
+        android_flags="$android_flags -DCMAKE_SYSTEM_PROCESSOR=$arch"
+    fi
+    
+    mkdir -p $local_build
 
-    local libpath=$rid_dir/$rid/native/$libname
+    cd $local_build 
+    cmake \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_C_FLAGS="$CFLAGS" \
+        -DCPUINFO_LIBRARY_TYPE=static \
+        -DCPUINFO_RUNTIME_TYPE=static \
+        -DCPUINFO_BUILD_BENCHMARKS=OFF \
+        -DCPUINFO_BUILD_UNIT_TESTS=OFF \
+        -DCPUINFO_BUILD_MOCK_TESTS=OFF \
+        -DCMAKE_BUILD_TYPE=Release \
+        $android_flags $source_dir
 
-    ${toolchain}-gcc $CFLAGS -shared $workdir/binding.c -DCOMPILE_MODE \
-        -DCPUINFO_VERSION="\"$cpuinfo_version\"" -DRID_NAME="\"$rid\""\
-        -L$local_build -lcpuinfo_internals -lcpuinfo -I$source_dir/include \
-        -o $rid_dir/$rid/native/$libname || exit -1
+    make -j
+    mkdir -p $rid_dir/$rid/native/
+    install_file="$(find $local_build -type f | grep -E 'so$|dll$|dylib$')"
 
-    ${toolchain}-gcc $CFLAGS $workdir/binding.c -DCOMPILE_MODE \
-        -DCPUINFO_VERSION="\"$cpuinfo_version\"" -DRID_NAME="\"$rid\""\
-        -L$local_build -lcpuinfo_internals -lcpuinfo -I$source_dir/include \
-        -o $rid_dir/$rid/native/$libexec_name || exit -1
+    
+    ${toolchain_compiler} $binding_flags -shared -o $libpath || exit -1
+    #${toolchain_compiler} $binding_flags -o $libexec_path || (echo "unable to create exe" ; exit -1)
 
     chmod 777 $rid_dir/$rid/native/$libname
-    ${toolchain}-objdump -x $libpath | grep NEEDED > $libpath.needed
-    ldd $libpath >> $libpath.needed
-    #cp $workdir/binding.c $libpath.binding.c
-    #cp $workdir/binding.cs $libpath.binding.csg
+    #chmod 777 $rid_dir/$rid/native/$libexec_path
 }
+
 
 rm -rfv $rid_dir
 
@@ -136,25 +126,21 @@ rm -rfv $rid_dir
 
 if [ "$musl" == "true" ]; then
     build_instance x86_64 Linux x86_64-linux-musl linux-musl-x64
-
     build_instance aarch64 Linux aarch64-linux-musl linux-musl-arm64
-
     build_instance armv6 Linux arm-linux-musleabi linux-musl-arm
-
     #build_instance riscv32 Linux riscv32-linux-musl linux-musl-rv32
-
     build_instance riscv64 Linux riscv64-linux-musl linux-musl-rv64
+elif [ "$android" == "true" ]; then
+    build_instance arm64 Android ndk android-arm64
+    build_instance x86_64 Android ndk android-x64
+    build_instance x86 Android ndk android-x86
+    build_instance arm Android ndk android-arm
 else
     build_instance x86_64 Linux x86_64-linux-gnu linux-x64
-
     build_instance aarch64 Linux aarch64-linux-gnu linux-arm64
-
     build_instance armv6 Linux arm-linux-gnueabi linux-arm
-
     build_instance riscv64 Linux riscv64-linux-gnu linux-rv64
-
     build_instance i686 Windows i686-w64-mingw32 win-x86
-
     build_instance x86_64 Windows x86_64-w64-mingw32 win-x64
 fi
 

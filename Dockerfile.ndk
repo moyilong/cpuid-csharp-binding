@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM saschpe/android-ndk:34-jdk21.0.2_13-ndk26.2.11394342-cmake3.22.1
 
 RUN sed -i \
         -e 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' \
@@ -6,18 +6,11 @@ RUN sed -i \
         /etc/apt/sources.list
 
 RUN apt update && \
-    apt install -y \
-        cmake git git-lfs build-essential dos2unix musl-dev \
-        gcc-aarch64-linux-gnu \
-        gcc-arm-linux-gnueabi \
-        gcc-mingw-w64-i686 \
-        gcc-mingw-w64-x86-64 \
-        gcc-riscv64-linux-gnu
+    apt install -y cmake git dos2unix make g++-multilib
 
+#RUN sdkmanager --verbose --install "build-tools;34.0.0"
 
-ENV WORKDIR=/src
-ENV INSTALL_DIR=/install
-ENV musl=false
+ENV android=true
 
 COPY --chmod=0777 ./build-libcpuinfo.sh /
 COPY --chmod=0777 ./binding.c /

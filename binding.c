@@ -70,7 +70,7 @@ API_EXPORT uint32_t copy_yaml_size()
 	return YAML_SIZE;
 }
 
-void copy_cache_info(char *yaml, const char *name, int tab, struct cpuinfo_cache *cache)
+void copy_cache_info(char *yaml, const char *name, int tab,const struct cpuinfo_cache *cache)
 {
 	put_yaml_stri(yaml, "- name", name, tab);
 #define cache_cpy(vname) \
@@ -102,10 +102,7 @@ uint32_t copy_yaml(char *yaml)
 	put_yaml_inte(yaml, "vendor", (uint32_t)(cpuinfo_get_cluster(0)->vendor), 1);
 	put_yaml_inte(yaml, "uarch", (uint32_t)(cpuinfo_get_cluster(0)->uarch), 1);
 	put_yaml_stri(yaml, "caches", "", 1);
-	for (int n = 0; n < cpuinfo_get_l1i_caches_count(); n++)
-	{
-		copy_cache_info(yaml, "l1i", 2, cpuinfo_get_l1d_cache(n));
-	}
+
 #define cache_copy_opt(name)                                      \
 	for (int n = 0; n < cpuinfo_get_##name##_caches_count(); n++) \
 		copy_cache_info(yaml, #name, 2, cpuinfo_get_##name##_cache(n));
@@ -136,7 +133,7 @@ uint32_t copy_yaml(char *yaml)
 			put_yaml_stri(yaml, "threads", "", 3);
 			for (int th = 0; th < core->processor_count; th++)
 			{
-				struct cpuinfo_processor *thread = cpuinfo_get_processor(th);
+				const struct cpuinfo_processor *thread = cpuinfo_get_processor(th);
 				put_yaml_inte(yaml, "- id", thread->smt_id, 4);
 			}
 		}
@@ -300,9 +297,10 @@ API_EXPORT uint32_t copy_yaml_api(uint8_t *yaml, uint32_t max)
 		return copy_yaml(yaml);
 	}
 }
-void main()
+int main()
 {
 	char yaml[YAML_SIZE] = {0x00};
 	copy_yaml(yaml);
 	printf("%s", yaml);
+	return 0;
 }
