@@ -64,25 +64,9 @@ void put_yaml_inte(char *yamlBuffer, const char *key, const uint32_t val, int ta
 	put_yaml_stri(yamlBuffer, key, str, tab);
 }
 
-
 API_EXPORT uint32_t copy_yaml_size()
 {
 	return YAML_SIZE;
-}
-
-void copy_cache_info(char *yaml, const char *name, int tab,const struct cpuinfo_cache *cache)
-{
-	put_yaml_stri(yaml, "- name", name, tab);
-#define cache_cpy(vname) \
-	put_yaml_inte(yaml, #vname, cache->vname, tab)
-	cache_cpy(size);
-	cache_cpy(associativity);
-	cache_cpy(sets);
-	cache_cpy(partitions);
-	cache_cpy(line_size);
-	cache_cpy(flags);
-	cache_cpy(processor_start);
-	cache_cpy(processor_count);
 }
 
 uint32_t copy_yaml(char *yaml)
@@ -103,15 +87,29 @@ uint32_t copy_yaml(char *yaml)
 	put_yaml_inte(yaml, "uarch", (uint32_t)(cpuinfo_get_cluster(0)->uarch), 1);
 	put_yaml_stri(yaml, "caches", "", 1);
 
-#define cache_copy_opt(name)                                      \
-	for (int n = 0; n < cpuinfo_get_##name##_caches_count(); n++) \
-		copy_cache_info(yaml, #name, 2, cpuinfo_get_##name##_cache(n));
+#define cache_cpy_opt(vname) \
+	put_yaml_inte(yaml, #vname, cache->vname, 2)
 
-	cache_copy_opt(l1d);
-	cache_copy_opt(l1i);
-	cache_copy_opt(l2);
-	cache_copy_opt(l3);
-	cache_copy_opt(l4);
+#define cache_copy(name)                                                   \
+	for (int n = 0; n < cpuinfo_get_##name##_caches_count(); n++)          \
+	{                                                                      \
+		const struct cpuinfo_cache *cache = cpuinfo_get_##name##_cache(n); \
+		put_yaml_stri(yaml, "- name", #name, 2);                           \
+		cache_cpy_opt(size);                                               \
+		cache_cpy_opt(associativity);                                      \
+		cache_cpy_opt(sets);                                               \
+		cache_cpy_opt(partitions);                                         \
+		cache_cpy_opt(line_size);                                          \
+		cache_cpy_opt(flags);                                              \
+		cache_cpy_opt(processor_start);                                    \
+		cache_cpy_opt(processor_count);                                    \
+	}
+
+	cache_copy(l1d);
+	cache_copy(l1i);
+	cache_copy(l2);
+	cache_copy(l3);
+	cache_copy(l4);
 	put_yaml_stri(yaml, "clusters", "", 1);
 	for (int cluster = 0; cluster < cpuinfo_get_clusters_count(); cluster++)
 	{
@@ -140,39 +138,39 @@ uint32_t copy_yaml(char *yaml)
 	}
 
 	put_yaml_stri(yaml, "features", "", 1);
-	
-#define copy_feature(arch,  xname, func)  \
-	put_yaml_stri(yaml, "- arch", #arch, 2);   \
-	put_yaml_bool(yaml, "stat", func(), 2);    \
-	put_yaml_stri(yaml, "funcname", #func, 2); \
-	put_yaml_stri(yaml, "name", #func + 16, 2);     \
+
+#define copy_feature(arch, xname, func)         \
+	put_yaml_stri(yaml, "- arch", #arch, 2);    \
+	put_yaml_bool(yaml, "stat", func(), 2);     \
+	put_yaml_stri(yaml, "funcname", #func, 2);  \
+	put_yaml_stri(yaml, "name", #func + 16, 2); \
 	put_yaml_stri(yaml, "xname", xname, 2);
 
-	copy_feature(x86,  "rdtsc", cpuinfo_has_x86_rdtsc);
-	copy_feature(x86,  "rdtscp", cpuinfo_has_x86_rdtscp);
-	copy_feature(x86,  "rdpid", cpuinfo_has_x86_rdpid);
-	copy_feature(x86,  "clzero", cpuinfo_has_x86_clzero);
-	copy_feature(x86,  "mwait", cpuinfo_has_x86_mwait);
-	copy_feature(x86,  "mwaitx", cpuinfo_has_x86_mwaitx);
-	copy_feature(x86,  "fxsave", cpuinfo_has_x86_fxsave);
-	copy_feature(x86,  "xsave", cpuinfo_has_x86_xsave);
-	copy_feature(x86,  "fpu", cpuinfo_has_x86_fpu);
-	copy_feature(x86,  "mmx", cpuinfo_has_x86_mmx);
-	copy_feature(x86,  "mmx+", cpuinfo_has_x86_mmx_plus);
-	copy_feature(x86,  "3dnow", cpuinfo_has_x86_3dnow);
-	copy_feature(x86,  "3dnow+", cpuinfo_has_x86_3dnow_plus);
-	copy_feature(x86,  "3dnow.geode", cpuinfo_has_x86_3dnow_geode);
-	copy_feature(x86,  "prefetch", cpuinfo_has_x86_prefetch);
-	copy_feature(x86,  "prefetchw", cpuinfo_has_x86_prefetchw);
-	copy_feature(x86,  "prefetchwt1", cpuinfo_has_x86_prefetchwt1);
-	copy_feature(x86,  "daz", cpuinfo_has_x86_daz);
-	copy_feature(x86,  "sse", cpuinfo_has_x86_sse);
-	copy_feature(x86,  "sse2", cpuinfo_has_x86_sse2);
-	copy_feature(x86,  "sse3", cpuinfo_has_x86_sse3);
-	copy_feature(x86,  "ssse3", cpuinfo_has_x86_ssse3);
-	copy_feature(x86,  "sse4.1", cpuinfo_has_x86_sse4_1);
-	copy_feature(x86,  "sse4.2", cpuinfo_has_x86_sse4_2);
-	copy_feature(x86,  "sse4a", cpuinfo_has_x86_sse4a);
+	copy_feature(x86, "rdtsc", cpuinfo_has_x86_rdtsc);
+	copy_feature(x86, "rdtscp", cpuinfo_has_x86_rdtscp);
+	copy_feature(x86, "rdpid", cpuinfo_has_x86_rdpid);
+	copy_feature(x86, "clzero", cpuinfo_has_x86_clzero);
+	copy_feature(x86, "mwait", cpuinfo_has_x86_mwait);
+	copy_feature(x86, "mwaitx", cpuinfo_has_x86_mwaitx);
+	copy_feature(x86, "fxsave", cpuinfo_has_x86_fxsave);
+	copy_feature(x86, "xsave", cpuinfo_has_x86_xsave);
+	copy_feature(x86, "fpu", cpuinfo_has_x86_fpu);
+	copy_feature(x86, "mmx", cpuinfo_has_x86_mmx);
+	copy_feature(x86, "mmx+", cpuinfo_has_x86_mmx_plus);
+	copy_feature(x86, "3dnow", cpuinfo_has_x86_3dnow);
+	copy_feature(x86, "3dnow+", cpuinfo_has_x86_3dnow_plus);
+	copy_feature(x86, "3dnow.geode", cpuinfo_has_x86_3dnow_geode);
+	copy_feature(x86, "prefetch", cpuinfo_has_x86_prefetch);
+	copy_feature(x86, "prefetchw", cpuinfo_has_x86_prefetchw);
+	copy_feature(x86, "prefetchwt1", cpuinfo_has_x86_prefetchwt1);
+	copy_feature(x86, "daz", cpuinfo_has_x86_daz);
+	copy_feature(x86, "sse", cpuinfo_has_x86_sse);
+	copy_feature(x86, "sse2", cpuinfo_has_x86_sse2);
+	copy_feature(x86, "sse3", cpuinfo_has_x86_sse3);
+	copy_feature(x86, "ssse3", cpuinfo_has_x86_ssse3);
+	copy_feature(x86, "sse4.1", cpuinfo_has_x86_sse4_1);
+	copy_feature(x86, "sse4.2", cpuinfo_has_x86_sse4_2);
+	copy_feature(x86, "sse4a", cpuinfo_has_x86_sse4a);
 	copy_feature(x86, "misaligned.sse", cpuinfo_has_x86_misaligned_sse);
 	copy_feature(x86, "avx", cpuinfo_has_x86_avx);
 	copy_feature(x86, "avxvnni", cpuinfo_has_x86_avxvnni);

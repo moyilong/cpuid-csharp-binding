@@ -14,6 +14,7 @@ namespace libCpuId.Test
         {
             Console.WriteLine(BindingBridge.GetYaml());
         }
+
         [Test]
         public void LoadObj()
         {
@@ -31,6 +32,13 @@ namespace libCpuId.Test
         }
 
         [Test]
+        public void CacheInfo()
+        {
+            Console.WriteLine(string.Join(Environment.NewLine, from i in BindingBridge.Parse().Cpu.Caches
+                                                               group i by i.Name));
+        }
+
+        [Test]
         public void SizeUsed()
         {
             var definedSize = BindingBridge.copy_yaml_size();
@@ -38,6 +46,5 @@ namespace libCpuId.Test
 
             Console.WriteLine($"{usedSize} / {definedSize} / {Math.Round(100.0f * usedSize / definedSize)}");
         }
-
     }
 }

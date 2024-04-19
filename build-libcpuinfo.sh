@@ -114,7 +114,7 @@ build_instance() {
     #${toolchain_compiler} $binding_flags -o $libexec_path || exit -1
 
     chmod 777 $rid_dir/$rid/native/$libname
-    chmod 777 $rid_dir/$rid/native/$libexec_path
+    #chmod 777 $rid_dir/$rid/native/$libexec_path
 }
 
 
