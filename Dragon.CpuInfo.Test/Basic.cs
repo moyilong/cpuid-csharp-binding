@@ -21,6 +21,16 @@ namespace libCpuId.Test
         }
 
         [Test]
+        public void CurrentFeature()
+        {
+            var yaml = BindingBridge.Parse();
+            Console.WriteLine(string.Join(Environment.NewLine, from i in yaml.Cpu.Features
+                                                               where i.Arch == yaml.ArchString
+                                                               orderby i.Name
+                                                               select $"{i.Name} / {i.XName} = {i.Stat}"));
+        }
+
+        [Test]
         public void SizeUsed()
         {
             var definedSize = BindingBridge.copy_yaml_size();
