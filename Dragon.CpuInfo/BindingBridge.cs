@@ -1,4 +1,3 @@
-using Dragon.CpuInfo.libCpuInfo;
 using Dragon.CpuInfo.Models;
 using System;
 using System.Linq;
@@ -11,13 +10,26 @@ using YamlDotNet.Serialization;
 
 namespace Dragon.CpuInfo
 {
+    /// <summary>
+    /// Binding bridge API
+    /// </summary>
     public static class BindingBridge
     {
         private const string dllName = "cpuinfo-binding";
 
+        /// <summary>
+        /// Get YAML data api
+        /// </summary>
+        /// <param name="yaml">yaml write buffer</param>
+        /// <param name="max">max size</param>
+        /// <returns></returns>
         [DllImport(dllName)]
         internal static extern Int32 copy_yaml_api(byte[] yaml, UInt32 max);
 
+        /// <summary>
+        /// Get YAML buffer size
+        /// </summary>
+        /// <returns></returns>
         [DllImport(dllName)]
         internal static extern UInt32 copy_yaml_size();
 
@@ -41,13 +53,21 @@ namespace Dragon.CpuInfo
         }
 
         /// <summary>
+        /// Clear data cache
+        /// </summary>
+        public static void ClearCache()
+        {
+            dataCache = null;
+        }
+
+        private static Deserializer deserializer = new();
+
+        /// <summary>
         /// Get Yaml Data
         /// </summary>
         /// <returns></returns>
         public static BindingYamlData Parse()
         {
-            Deserializer deserializer = new();
-
             return deserializer.Deserialize<BindingYamlData>(GetYaml());
         }
     }

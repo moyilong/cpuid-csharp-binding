@@ -1,4 +1,5 @@
 using Dragon.CpuInfo.libCpuInfo;
+using System;
 using YamlDotNet.Serialization;
 
 namespace Dragon.CpuInfo.Models
@@ -48,6 +49,7 @@ namespace Dragon.CpuInfo.Models
         /// Caches
         /// </summary>
         [YamlMember(Alias = "caches")]
+        [Obsolete("cache info is still in test")]
         public BindingYamlDataCache[] Caches { get; set; }
 
         /// <summary>

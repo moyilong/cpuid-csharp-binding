@@ -1,3 +1,5 @@
+#pragma warning disable CS1591
+
 namespace Dragon.CpuInfo.libCpuInfo
 {
     /**
@@ -8,6 +10,7 @@ namespace Dragon.CpuInfo.libCpuInfo
      * organization.
      */
 
+    // This enum is copy from C source
     public enum CpuInfoUArch
     {
         /** Microarchitecture is unknown, or the library failed to get

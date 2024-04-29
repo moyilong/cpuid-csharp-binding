@@ -88,7 +88,7 @@ namespace Dragon.CpuInfo.libCpuInfo
         /** RDC Semiconductor Co., Ltd. Vendor of x86 processor
            microarchitectures. */
         cpuinfo_vendor_rdc = 32,
-        /** DM&P Electronics Inc. Vendor of x86 processor microarchitectures. */
+        /** DM and P Electronics Inc. Vendor of x86 processor microarchitectures. */
         cpuinfo_vendor_dmp = 33,
         /** Motorola, Inc. Vendor of PowerPC and ARM processor
            microarchitectures. */
