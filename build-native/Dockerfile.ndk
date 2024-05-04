@@ -12,7 +12,7 @@ RUN apt update && \
 
 ENV android=true
 
-COPY --chmod=0777 ./build-libcpuinfo.sh /
+COPY --chmod=0777 ./build-native/build-libcpuinfo.sh /
 COPY --chmod=0777 ./binding.c /
 RUN dos2unix /build-libcpuinfo.sh
 
