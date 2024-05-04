@@ -1,6 +1,4 @@
 using Dragon.CpuInfo;
-using Dragon.CpuInfo.libCpuInfo;
-using Microsoft.VisualStudio.TestPlatform.Utilities;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
@@ -34,8 +32,17 @@ namespace libCpuId.Test
         [Test]
         public void CacheInfo()
         {
-            Console.WriteLine(string.Join(Environment.NewLine, from i in BindingBridge.Parse().Cpu.Caches
-                                                               group i by i.Name));
+            Console.WriteLine(string.Join(Environment.NewLine, from b in BindingBridge.Parse().Cpu.Caches
+                                                               group b by (b.Name, b.Size) into g
+                                                               group g by g.Key.Name into h
+                                                               select $"{h.Key} {string.Join('+', from c in h select $"{Math.Round(c.Key.Size / 1024.0f)}kb x {c.Count()}")}"));
+        }
+
+        [Test]
+        public void CacheInfoReal()
+        {
+            Console.WriteLine(new JArray(from b in BindingBridge.Parse().Cpu.Caches
+                                         select JObject.FromObject(b)).ToString());
         }
 
         [Test]

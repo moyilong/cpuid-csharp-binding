@@ -12,14 +12,15 @@ namespace Dragon.CpuInfo.libCpuInfo
         /// Unified
         /// </summary>
         CacheUnified = 0x00000001,
+
         /// <summary>
         /// Inclusice
         /// </summary>
         CacheInclusivce = 0x00000002,
+
         /// <summary>
         /// Complex indexing
         /// </summary>
         ComplexIndexing = 0x00000004,
     }
-
 }

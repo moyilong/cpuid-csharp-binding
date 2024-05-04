@@ -32,8 +32,7 @@ namespace Dragon.CpuInfo.libCpuInfo
         cpuinfo_uarch_conroe = 0x00100203,
         /** Intel Core 2 microarchitecture on 45 nm process. */
         cpuinfo_uarch_penryn = 0x00100204,
-        /** Intel Nehalem and Westmere microarchitectures (Core i3/i5/i7 1st
-           gen). */
+        /** Intel Nehalem and Westmere microarchitectures (Core i3/i5/i7 1stgen). */
         cpuinfo_uarch_nehalem = 0x00100205,
         /** Intel Sandy Bridge microarchitecture (Core i3/i5/i7 2nd gen). */
         cpuinfo_uarch_sandy_bridge = 0x00100206,

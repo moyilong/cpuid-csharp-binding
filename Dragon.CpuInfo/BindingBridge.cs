@@ -60,7 +60,7 @@ namespace Dragon.CpuInfo
             dataCache = null;
         }
 
-        private static Deserializer deserializer = new();
+        private static readonly Deserializer deserializer = new();
 
         /// <summary>
         /// Get Yaml Data
