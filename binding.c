@@ -69,7 +69,7 @@ API_EXPORT uint32_t copy_yaml_size()
 	return YAML_SIZE;
 }
 
-uint32_t copy_yaml(char *yaml)
+int32_t copy_yaml(char *yaml)
 {
 	if (!cpuinfo_initialize())
 	{
