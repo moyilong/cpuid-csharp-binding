@@ -127,7 +127,7 @@ if [ "$musl" == "true" ]; then
     build_instance aarch64 Linux aarch64-linux-musl linux-musl-arm64
     build_instance armv6 Linux arm-linux-musleabi linux-musl-arm
     #build_instance riscv32 Linux riscv32-linux-musl linux-musl-rv32
-    build_instance riscv64 Linux riscv64-linux-musl linux-musl-rv64
+    build_instance riscv64 Linux riscv64-linux-musl linux-musl-riscv64
 elif [ "$android" == "true" ]; then
     build_instance arm64 Android ndk android-arm64
     build_instance x86_64 Android ndk android-x64
@@ -137,7 +137,7 @@ else
     build_instance x86_64 Linux x86_64-linux-gnu linux-x64
     build_instance aarch64 Linux aarch64-linux-gnu linux-arm64
     build_instance armv6 Linux arm-linux-gnueabi linux-arm
-    build_instance riscv64 Linux riscv64-linux-gnu linux-rv64
+    build_instance riscv64 Linux riscv64-linux-gnu linux-riscv64
     build_instance i686 Windows i686-w64-mingw32 win-x86
     build_instance x86_64 Windows x86_64-w64-mingw32 win-x64
 fi
