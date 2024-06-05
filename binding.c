@@ -17,7 +17,7 @@
 
 #define API_EXPORT CPUINFO_ABI
 
-#define CPUINFO_VERSION_STR "Binding " RID_NAME " " __DATE__ " " __TIME__ " libcpuinfo: git+" CPUINFO_VERSION
+//#define CPUINFO_VERSION_STR "Binding " RID_NAME " " __DATE__ " " __TIME__ " libcpuinfo: git+" CPUINFO_VERSION
 
 #if CPUINFO_ARCH_X86 || CPUINFO_ARCH_X86_64
 #define ARCH_STRING "x86"
@@ -76,7 +76,10 @@ int32_t copy_yaml(char *yaml)
 		strcpy(yaml, "unable to init!");
 		return -1;
 	}
-	put_yaml_stri(yaml, "lib_version", "\"" CPUINFO_VERSION_STR "\"", 0);
+	//put_yaml_stri(yaml, "lib_version", "\"" CPUINFO_VERSION_STR "\"", 0);
+	put_yaml_stri(yaml, "lib_version", CPUINFO_VERSION, 0);
+	put_yaml_stri(yaml, "compile_rid", RID_NAME, 0);
+	put_yaml_stri(yaml, "compile_time", __DATE__ " " __TIME__, 0);
 	put_yaml_stri(yaml, "arch_string", ARCH_STRING, 0);
 	put_yaml_stri(yaml, "cpu", "", 0);
 	put_yaml_stri(yaml, "model", cpuinfo_get_processors()->package->name, 1);
