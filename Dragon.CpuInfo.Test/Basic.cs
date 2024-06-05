@@ -48,7 +48,7 @@ namespace libCpuId.Test
         [Test]
         public void SizeUsed()
         {
-            var definedSize = BindingBridge.copy_yaml_size();
+            var definedSize = NativeBridge.copy_yaml_size();
             var usedSize = BindingBridge.GetYaml().Length;
 
             Console.WriteLine($"{usedSize} / {definedSize} / {Math.Round(100.0f * usedSize / definedSize)}");

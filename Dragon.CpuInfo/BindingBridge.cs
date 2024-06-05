@@ -1,9 +1,10 @@
 using Dragon.CpuInfo.Models;
 using System;
-using System.Linq;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
 using YamlDotNet.Serialization;
 
 [assembly: InternalsVisibleTo("Dragon.CpuInfo.Test")]
@@ -15,41 +16,78 @@ namespace Dragon.CpuInfo
     /// </summary>
     public static class BindingBridge
     {
-        private const string dllName = "cpuinfo-binding";
-
-        /// <summary>
-        /// Get YAML data api
-        /// </summary>
-        /// <param name="yaml">yaml write buffer</param>
-        /// <param name="max">max size</param>
-        /// <returns></returns>
-        [DllImport(dllName)]
-        internal static extern Int32 copy_yaml_api(byte[] yaml, UInt32 max);
-
-        /// <summary>
-        /// Get YAML buffer size
-        /// </summary>
-        /// <returns></returns>
-        [DllImport(dllName)]
-        internal static extern UInt32 copy_yaml_size();
-
         private static string dataCache = null;
 
         internal static string GetYaml()
         {
             if (dataCache == null)
             {
-                byte[] buffer = new byte[copy_yaml_size()];
-
-                Int32 size = copy_yaml_api(buffer, (UInt32)buffer.Length);
-                if (size == -1)
-                    throw new Exception(Encoding.UTF8.GetString(buffer).Trim());
+                if (UseLibCall)
+                {
+                }
                 else
                 {
-                    dataCache = Encoding.UTF8.GetString(buffer.Take(size).ToArray());
+                    dataCache = NativeBridge.GetYamlBySo();
                 }
             }
             return dataCache;
+        }
+
+        private static bool? forceUseLibCall = false;
+
+        /// <summary>
+        /// Use Libcall or Execute Call
+        /// </summary>
+        public static bool UseLibCall
+        {
+            get
+            {
+                if (forceUseLibCall != null)
+                {
+                    return forceUseLibCall == true;
+                }
+                else
+                {
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                        return true;
+                    return false;
+                }
+            }
+        }
+
+        private static string ProcCallGetYaml()
+        {
+            var location = Assembly.GetExecutingAssembly().Location ?? Assembly.GetEntryAssembly().Location;
+
+            var path = Path.GetDirectoryName(location);
+
+            string osname;
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                osname = "win";
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                osname = "linux";
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                osname = "osx";
+            else
+                throw new PlatformNotSupportedException();
+
+            var ridPath = Path.Combine(path, "runtimes", "native", $"{osname}-{RuntimeInformation.OSArchitecture.ToString().ToLower()}", "cpuinfo-binding");
+
+            using var cmd = new Process()
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = ridPath,
+                    RedirectStandardError = true,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow=true,
+                    UseShellExecute=false
+                }
+            };
+            cmd.Start();
+            cmd.WaitForExit();
+            return cmd.StandardOutput.ReadToEnd();
         }
 
         /// <summary>

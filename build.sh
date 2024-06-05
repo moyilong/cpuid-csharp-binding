@@ -16,4 +16,4 @@ run()
 
 run alpine Dockerfile.alpine
 run ubuntu Dockerfile.ubuntu
-run android Dockerfile.ndk
+# run android Dockerfile.ndk

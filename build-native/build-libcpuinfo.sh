@@ -55,10 +55,9 @@ build_instance() {
     binding_definition="-DCOMPILE_MODE  -DRID_NAME=\"$rid\" -DCPUINFO_VERSION=\"$cpuinfo_version\""
     binding_link="-L$local_build -lcpuinfo"
     binding_flags="$CLFAGS -fPIC -I$source_dir/include $binding_source $binding_link $binding_definition"
-    
     toolchain_compiler="notfound"
-    android_abi
-    android_level
+    android_abi=""
+    android_level=""
     if [ "$android" == "true" ]; then
         export PATH=$PATH:$NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/bin
         case $arch in 
@@ -110,11 +109,13 @@ build_instance() {
     make -j
     mkdir -p $rid_dir/$rid/native/
 
-    ${toolchain_compiler} $binding_flags -shared -o $libpath || exit -1
-    #${toolchain_compiler} $binding_flags -o $libexec_path || exit -1
-
-    chmod 777 $rid_dir/$rid/native/$libname
-    #chmod 777 $rid_dir/$rid/native/$libexec_path
+    if [ "$do_exec" == "true" ]; then
+        ${toolchain_compiler} $binding_flags -static -o $libexec_path || exit -1
+        chmod 777 $libexec_path
+    else
+        ${toolchain_compiler} $binding_flags -shared -o $libpath || exit -1
+        chmod 777 $libpath
+    fi
 }
 
 
@@ -123,23 +124,25 @@ rm -rfv $rid_dir
 # https://learn.microsoft.com/zh-cn/dotnet/core/rid-catalog
 
 if [ "$musl" == "true" ]; then
-    build_instance x86_64 Linux x86_64-linux-musl linux-musl-x64
-    build_instance aarch64 Linux aarch64-linux-musl linux-musl-arm64
-    build_instance armv6 Linux arm-linux-musleabi linux-musl-arm
-    #build_instance riscv32 Linux riscv32-linux-musl linux-musl-rv32
-    build_instance riscv64 Linux riscv64-linux-musl linux-musl-riscv64
+    export do_exec=true
+    build_instance x86_64 Linux x86_64-linux-musl linux-x64
+    build_instance aarch64 Linux aarch64-linux-musl linux-arm64
+    build_instance armv6 Linux arm-linux-musleabi linux-arm
+    build_instance riscv32 Linux riscv32-linux-musl linux-rv32
+    build_instance riscv64 Linux riscv64-linux-musl linux-riscv64
 elif [ "$android" == "true" ]; then
     build_instance arm64 Android ndk android-arm64
     build_instance x86_64 Android ndk android-x64
     build_instance x86 Android ndk android-x86
     build_instance arm Android ndk android-arm
 else
-    build_instance x86_64 Linux x86_64-linux-gnu linux-x64
-    build_instance aarch64 Linux aarch64-linux-gnu linux-arm64
-    build_instance armv6 Linux arm-linux-gnueabi linux-arm
-    build_instance riscv64 Linux riscv64-linux-gnu linux-riscv64
     build_instance i686 Windows i686-w64-mingw32 win-x86
     build_instance x86_64 Windows x86_64-w64-mingw32 win-x64
+    
+    #build_instance x86_64 Linux x86_64-linux-gnu linux-x64
+    #build_instance aarch64 Linux aarch64-linux-gnu linux-arm64
+    #build_instance armv6 Linux arm-linux-gnueabi linux-arm
+    #build_instance riscv64 Linux riscv64-linux-gnu linux-riscv64
 fi
 
 mkdir -p $install_dir
