@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using YamlDotNet.Serialization;
 
 [assembly: InternalsVisibleTo("Dragon.CpuInfo.Test")]
+
 namespace Dragon.CpuInfo
 {
     /// <summary>
@@ -15,6 +16,9 @@ namespace Dragon.CpuInfo
     /// </summary>
     public static class BindingBridge
     {
+        /// <summary>
+        /// Cache of program data
+        /// </summary>
         private static string dataCache = null;
 
         internal static string GetYaml()
@@ -23,11 +27,13 @@ namespace Dragon.CpuInfo
             {
                 if (UseLibCall)
                 {
-                    dataCache = ProcCallGetYaml();
+
+                    dataCache = NativeBridge.GetYamlBySo();
                 }
                 else
                 {
-                    dataCache = NativeBridge.GetYamlBySo();
+                    dataCache = ProcCallGetYaml();
+                    
                 }
             }
             return dataCache;
@@ -40,14 +46,14 @@ namespace Dragon.CpuInfo
         {
             get
             {
-#if NET8_0_OR_GREATER
+#if NET5_0_OR_GREATER
                 if (OperatingSystem.IsLinux())
                     return false;
                 return true;
 #else
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                        return false;
-                    return true;
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                    return false;
+                return true;
 #endif
             }
         }
@@ -58,20 +64,7 @@ namespace Dragon.CpuInfo
 
             var path = Path.GetDirectoryName(location);
 
-            string osname;
-
-#if NET8_0_OR_GREATER
-            if (OperatingSystem.IsLinux())
-                osname = "linux";
-            else
-                throw new PlatformNotSupportedException();
-#else
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                osname = "linux";
-            else
-                throw new PlatformNotSupportedException();
-#endif
-            var ridPath = Path.Combine(path, "runtimes", "native", $"{osname}-{RuntimeInformation.OSArchitecture.ToString().ToLower()}", "cpuinfo-binding");
+            var ridPath = Path.Combine(path, "runtimes", $"linux-{RuntimeInformation.OSArchitecture.ToString().ToLower()}","native", "cpuinfo-binding");
 
             using var cmd = new Process()
             {
