@@ -1,5 +1,6 @@
 using Dragon.CpuInfo.Models;
 using System;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -58,10 +59,30 @@ namespace Dragon.CpuInfo
 
         private static string ProcCallGetYaml()
         {
-            var location = Assembly.GetExecutingAssembly()?.Location ?? Assembly.GetEntryAssembly()?.Location ?? Assembly.GetCallingAssembly()?.Location ?? Environment.CurrentDirectory;
+            var location =
+                Assembly.GetExecutingAssembly()?.Location
+                ?? Assembly.GetEntryAssembly()?.Location
+                ?? Assembly.GetCallingAssembly()?.Location;
 
-            var ridPath = Path.Combine(Path.GetDirectoryName(location), "runtimes", $"linux-{RuntimeInformation.OSArchitecture.ToString().ToLower()}", "native", "cpuinfo-binding");
+            if (location == null)
+                location = AppContext.BaseDirectory ?? Environment.CurrentDirectory;
+            else
+                location = Path.GetDirectoryName(location);
 
+            string[] pathArray = [
+                location ?? ".",
+                "runtimes",
+                $"linux-{RuntimeInformation.OSArchitecture.ToString().ToLower()}",
+                "native",
+                "cpuinfo-binding",
+            ];
+
+            Console.WriteLine(string.Join(',', pathArray));
+
+            var ridPath = Path.Combine(pathArray);
+
+            if (!File.Exists(ridPath))
+                throw new FileNotFoundException(ridPath);
             using var cmd = new Process()
             {
                 StartInfo = new ProcessStartInfo
@@ -70,7 +91,7 @@ namespace Dragon.CpuInfo
                     RedirectStandardError = true,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true,
-                    UseShellExecute = false
+                    UseShellExecute = false,
                 }
             };
             cmd.Start();
