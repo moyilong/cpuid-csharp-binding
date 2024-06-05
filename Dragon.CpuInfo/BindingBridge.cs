@@ -27,13 +27,11 @@ namespace Dragon.CpuInfo
             {
                 if (UseLibCall)
                 {
-
                     dataCache = NativeBridge.GetYamlBySo();
                 }
                 else
                 {
                     dataCache = ProcCallGetYaml();
-                    
                 }
             }
             return dataCache;
@@ -60,11 +58,9 @@ namespace Dragon.CpuInfo
 
         private static string ProcCallGetYaml()
         {
-            var location = Assembly.GetExecutingAssembly().Location ?? Assembly.GetEntryAssembly().Location?? Environment.CurrentDirectory;
+            var location = Assembly.GetExecutingAssembly()?.Location ?? Assembly.GetEntryAssembly()?.Location ?? Assembly.GetCallingAssembly()?.Location ?? Environment.CurrentDirectory;
 
-            var path = Path.GetDirectoryName(location);
-
-            var ridPath = Path.Combine(path, "runtimes", $"linux-{RuntimeInformation.OSArchitecture.ToString().ToLower()}","native", "cpuinfo-binding");
+            var ridPath = Path.Combine(Path.GetDirectoryName(location), "runtimes", $"linux-{RuntimeInformation.OSArchitecture.ToString().ToLower()}", "native", "cpuinfo-binding");
 
             using var cmd = new Process()
             {
