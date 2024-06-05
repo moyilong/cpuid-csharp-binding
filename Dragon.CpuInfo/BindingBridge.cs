@@ -24,6 +24,7 @@ namespace Dragon.CpuInfo
             {
                 if (UseLibCall)
                 {
+                    dataCache = ProcCallGetYaml();
                 }
                 else
                 {
