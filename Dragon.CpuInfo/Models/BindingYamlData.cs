@@ -12,16 +12,17 @@ namespace Dragon.CpuInfo.Models
         /// </summary>
         [YamlMember(Alias = "lib_version")]
         public string LibVersion { get; set; }
+
         /// <summary>
         /// Compile RID
         /// </summary>
         [YamlMember(Alias = "compile_rid")]
-        public string CompileRid{ get; set; }
+        public string CompileRid { get; set; }
 
         /// <summary>
         /// Compile Time
         /// </summary>
-        [YamlMember(Alias ="compile_time")]
+        [YamlMember(Alias = "compile_time")]
         public string CompileTime { get; set; }
 
         /// <summary>
