@@ -4,4 +4,4 @@ using Newtonsoft.Json.Linq;
 
 
 Console.WriteLine();
-Console.WriteLine(JObject.FromObject( BindingBridge.Parse()).ToString());
+Console.WriteLine(JObject.FromObject(BindingBridge.Parse()).ToString());
