@@ -37,7 +37,7 @@ ENV PATH=${PATH}:/toolchain/arm-linux-musleabi-cross/bin
 WORKDIR /toolchain
 
 RUN aria2c -i aria2.list -j16 -x16 --file-allocation=prealloc
-RUN ls | grep tgz | while read line ; do tar xvf $line ; done
+RUN ls | grep tgz | while read line ; do tar xf $line ; done
 
 WORKDIR /
 
