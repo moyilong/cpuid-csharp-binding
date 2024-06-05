@@ -60,7 +60,7 @@ namespace Dragon.CpuInfo
 
         private static string ProcCallGetYaml()
         {
-            var location = Assembly.GetExecutingAssembly().Location ?? Assembly.GetEntryAssembly().Location;
+            var location = Assembly.GetExecutingAssembly().Location ?? Assembly.GetEntryAssembly().Location?? Environment.CurrentDirectory;
 
             var path = Path.GetDirectoryName(location);
 
