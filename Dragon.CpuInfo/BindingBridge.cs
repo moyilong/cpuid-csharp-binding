@@ -77,7 +77,6 @@ namespace Dragon.CpuInfo
                 "cpuinfo-binding",
             ];
 
-            Console.WriteLine(string.Join(',', pathArray));
 
             var ridPath = Path.Combine(pathArray);
 
