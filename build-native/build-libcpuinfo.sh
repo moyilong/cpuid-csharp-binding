@@ -124,6 +124,8 @@ rm -rfv $rid_dir
 # https://learn.microsoft.com/zh-cn/dotnet/core/rid-catalog
 
 if [ "$musl" == "true" ]; then
+    build_instance i686 Windows i686-w64-mingw32 win-x86
+    build_instance x86_64 Windows x86_64-w64-mingw32 win-x64
     export do_exec=true
     build_instance x86_64 Linux x86_64-linux-musl linux-x64
     build_instance aarch64 Linux aarch64-linux-musl linux-arm64
@@ -136,8 +138,7 @@ elif [ "$android" == "true" ]; then
     build_instance x86 Android ndk android-x86
     build_instance arm Android ndk android-arm
 else
-    build_instance i686 Windows i686-w64-mingw32 win-x86
-    build_instance x86_64 Windows x86_64-w64-mingw32 win-x64
+    return -1    
     
     #build_instance x86_64 Linux x86_64-linux-gnu linux-x64
     #build_instance aarch64 Linux aarch64-linux-gnu linux-arm64

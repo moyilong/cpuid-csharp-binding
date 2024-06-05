@@ -1,0 +1,10 @@
+https://musl.cc/arm-linux-musleabi-cross.tgz
+    out=arm-linux-musleabi-cross.tgz
+https://musl.cc/aarch64-linux-musl-cross.tgz
+    out=aarch64-linux-musl-cross.tgz
+https://musl.cc/riscv64-linux-musl-cross.tgz
+    out=riscv64-linux-musl-cross.tgz
+https://musl.cc/riscv32-linux-musl-cross.tgz
+    out=riscv32-linux-musl-cross.tgz
+https://musl.cc/x86_64-linux-musl-cross.tgz
+    out=x86_64-linux-musl-cross.tgz

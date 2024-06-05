@@ -2,7 +2,8 @@ FROM alpine:latest
 
 RUN apk update && \
     apk add musl-dev cmake git git-lfs bash make \
-            gcc g++ aria2
+            gcc g++ aria2 \
+            mingw-w64-gcc i686-mingw-w64-gcc
 
 ENV WORKDIR=/src
 ENV INSTALL_DIR=/install
@@ -13,14 +14,17 @@ ENV musl=true
 
 WORKDIR /toolchain
 
-COPY --chmod=0777 ./build-native/install-musl-gcc.sh .
-RUN dos2unix ./install-musl-gcc.sh
 
-RUN ./install-musl-gcc.sh x86_64-linux-musl
-RUN ./install-musl-gcc.sh riscv32-linux-musl
-RUN ./install-musl-gcc.sh riscv64-linux-musl
-RUN ./install-musl-gcc.sh aarch64-linux-musl
-RUN ./install-musl-gcc.sh arm-linux-musleabi
+COPY ./build-native/aria2.list /toolchain/aria2.list
+
+#COPY --chmod=0777 ./build-native/install-musl-gcc.sh .
+#RUN dos2unix ./install-musl-gcc.sh
+
+#RUN ./install-musl-gcc.sh x86_64-linux-musl
+#RUN ./install-musl-gcc.sh riscv32-linux-musl
+#RUN ./install-musl-gcc.sh riscv64-linux-musl
+#RUN ./install-musl-gcc.sh aarch64-linux-musl
+#RUN ./install-musl-gcc.sh arm-linux-musleabi
 
 
 ENV PATH=${PATH}:/toolchain/x86_64-linux-musl-cross/bin
@@ -28,6 +32,12 @@ ENV PATH=${PATH}:/toolchain/riscv32-linux-musl-cross/bin
 ENV PATH=${PATH}:/toolchain/riscv64-linux-musl-cross/bin
 ENV PATH=${PATH}:/toolchain/aarch64-linux-musl-cross/bin
 ENV PATH=${PATH}:/toolchain/arm-linux-musleabi-cross/bin
+
+
+WORKDIR /toolchain
+
+RUN aria2c -i aria2.list -j16 -x16 --file-allocation=prealloc
+RUN ls | grep tgz | while read line ; do tar xvf $line ; done
 
 WORKDIR /
 
