@@ -1,10 +1,12 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Dragon.CpuInfo
 {
+    [SuppressMessage("Interoperability", "SYSLIB1054", Justification = "<挂起>")]
     internal static class NativeBridge
     {
         private const string dllName = "cpuinfo-binding";

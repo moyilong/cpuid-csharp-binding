@@ -8,7 +8,6 @@ using System.Runtime.InteropServices;
 using YamlDotNet.Serialization;
 
 [assembly: InternalsVisibleTo("Dragon.CpuInfo.Test")]
-
 namespace Dragon.CpuInfo
 {
     /// <summary>
@@ -34,8 +33,6 @@ namespace Dragon.CpuInfo
             return dataCache;
         }
 
-        private static bool? forceUseLibCall = false;
-
         /// <summary>
         /// Use Libcall or Execute Call
         /// </summary>
@@ -43,16 +40,15 @@ namespace Dragon.CpuInfo
         {
             get
             {
-                if (forceUseLibCall != null)
-                {
-                    return forceUseLibCall == true;
-                }
-                else
-                {
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                        return true;
+#if NET8_0_OR_GREATER
+                if (OperatingSystem.IsLinux())
                     return false;
-                }
+                return true;
+#else
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                        return false;
+                    return true;
+#endif
             }
         }
 
@@ -64,15 +60,17 @@ namespace Dragon.CpuInfo
 
             string osname;
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                osname = "win";
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+#if NET8_0_OR_GREATER
+            if (OperatingSystem.IsLinux())
                 osname = "linux";
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                osname = "osx";
             else
                 throw new PlatformNotSupportedException();
-
+#else
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                osname = "linux";
+            else
+                throw new PlatformNotSupportedException();
+#endif
             var ridPath = Path.Combine(path, "runtimes", "native", $"{osname}-{RuntimeInformation.OSArchitecture.ToString().ToLower()}", "cpuinfo-binding");
 
             using var cmd = new Process()
@@ -82,8 +80,8 @@ namespace Dragon.CpuInfo
                     FileName = ridPath,
                     RedirectStandardError = true,
                     RedirectStandardOutput = true,
-                    CreateNoWindow=true,
-                    UseShellExecute=false
+                    CreateNoWindow = true,
+                    UseShellExecute = false
                 }
             };
             cmd.Start();
